@@ -21,6 +21,6 @@ final class MapMapper extends AbstractMapper implements MapMapperInterface
      */
     public static function getTableName()
     {
-        return self::getTableName('bono_module_map_maps');
+        return self::getWithPrefix('bono_module_map_maps');
     }
 }
