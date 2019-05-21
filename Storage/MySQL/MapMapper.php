@@ -23,4 +23,19 @@ final class MapMapper extends AbstractMapper implements MapMapperInterface
     {
         return self::getWithPrefix('bono_module_map_maps');
     }
+
+    /**
+     * Fetch all maps
+     * 
+     * @return array
+     */
+    public function fetchAll()
+    {
+        $db = $this->db->select('*')
+                       ->from(self::getTableName())
+                       ->orderBy('id')
+                       ->desc();
+
+        return $db->queryAll();
+    }
 }
