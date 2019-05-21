@@ -25,8 +25,8 @@ final class Map extends AbstractController
     private function createForm(VirtualEntity $map)
     {
         // Append breadcrumbs
-        $this->getBreadcrumbBag()->addOne('Maps', 'Map:Admin:Map@indexAction')
-                                 ->addOne($map->getId() ? 'Update map' : 'Add new map');
+        $this->view->getBreadcrumbBag()->addOne('Maps', 'Map:Admin:Map@indexAction')
+                                       ->addOne($map->getId() ? 'Update map' : 'Add new map');
 
         return $this->view->render('form', array(
             'map' => $map
@@ -40,6 +40,9 @@ final class Map extends AbstractController
      */
     public function indexAction()
     {
+        // Append breadcrumbs
+        $this->view->getBreadcrumbBag()->addOne('Maps', 'Map:Admin:Map@indexAction');
+
         return $this->view->render('index', array(
             'maps' => $this->getModuleService('mapService')->fetchAll()
         ));
