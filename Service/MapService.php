@@ -44,7 +44,8 @@ final class MapService extends AbstractManager
         $entity->setId($row['id'])
                ->setLat($row['lat'])
                ->setLng($row['lng'])
-               ->setZoom($row['zoom']);
+               ->setZoom($row['zoom'])
+               ->setApiKey($row['api_key']);
 
         return $entity;
     }
