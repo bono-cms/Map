@@ -99,8 +99,13 @@ final class Map extends AbstractController
     {
         $input = $this->request->getPost('map');
 
-        $this->getModuleService('mapService')->save($input);
+        $mapService = $this->getModuleService('mapService');
+        $mapService->save($input);
 
-        return 1;
+        if ($input['id']) {
+            return 1;
+        } else {
+            return $mapService->getLastId();
+        }
     }
 }
