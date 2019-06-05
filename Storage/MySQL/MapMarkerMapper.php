@@ -11,18 +11,16 @@
 
 namespace Map\Storage\MySQL;
 
-use Cms\Storage\MySQL\AbstractStorageDropper;
+use Cms\Storage\MySQL\AbstractMapper;
+use Map\Storage\MapMarkerMapperInterface;
 
-final class Dropper extends AbstractStorageDropper
+final class MapMarkerMapper extends AbstractMapper
 {
     /**
      * {@inheritDoc}
      */
-    protected function getTables()
+    public static function getTableName()
     {
-        return array(
-            MapMapper::getTableName(),
-            MapMarkerMapper::getTableName()
-        );
+        return self::getWithPrefix('bono_module_map_markers');
     }
 }
