@@ -87,6 +87,8 @@ final class Map extends AbstractController
     public function deleteAction($id)
     {
         $this->getModuleService('mapService')->deleteById($id);
+
+        $this->flashBag->set('success', 'Selected element has been removed successfully');
         return 1;
     }
 
@@ -97,14 +99,19 @@ final class Map extends AbstractController
      */
     public function saveAction()
     {
+        // Raw POST data
         $input = $this->request->getPost('map');
 
         $mapService = $this->getModuleService('mapService');
         $mapService->save($input);
 
         if ($input['id']) {
+
+            $this->flashBag->set('success', 'The element has been updated successfully');
             return 1;
         } else {
+
+            $this->flashBag->set('success', 'The element has been created successfully');
             return $mapService->getLastId();
         }
     }
