@@ -1,0 +1,69 @@
+<?php
+
+use Krystal\Form\Element;
+use Krystal\Widget\GridView\GridViewWidget;
+use Cms\View\Icon;
+
+defined('KRYSTAL') or die;
+
+?>
+
+<div class="btn-toolbar">
+    <div class="btn-group mr-2">
+        <?php $this->loadPartial('menu', array(
+            'items' => array(
+                'Map:Admin:Map@addAction' => 'Add new map',
+            )
+        )); ?>
+    </div>
+</div>
+
+<div class="card">
+    <?php $this->loadPartial('items-per-page', array('caption' => 'Maps')); ?>
+
+    <?= $this->widget(new GridViewWidget($maps, array(
+        'tableClass' => 'table table-hover table-bordered table-striped',
+        'columns' => array(
+            array(
+                'column' => 'id',
+                'label' => '#'
+            ),
+
+            array(
+                'column' => 'lat',
+                'label' => 'Latitude'
+            ),
+
+            array(
+                'column' => 'lng',
+                'label' => 'Longitude'
+            ),
+
+            array(
+                'column' => 'zoom'
+            ),
+        ),
+
+        'actions' => array(
+            'edit' => function($row){
+                return Icon::edit(
+                    $this->url('Map:Admin:Map@editAction', $row['id']),
+                    $this->translate('Edit this map')
+                );
+            },
+
+            'remove' => function($row){
+                return Icon::remove(
+                    $this->url('Map:Admin:Map@deleteAction', $row['id']), 
+                    $this->translate('Remove this map')
+                );
+            }
+        )
+    ))); ?>
+
+    <?php if (empty($maps)): ?>
+    <div class="center-block">
+        <h2 class="text-center text-muted"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('No maps'); ?></h2>
+    </div>
+    <?php endif; ?>
+</div>
