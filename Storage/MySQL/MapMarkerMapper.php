@@ -14,7 +14,7 @@ namespace Map\Storage\MySQL;
 use Cms\Storage\MySQL\AbstractMapper;
 use Map\Storage\MapMarkerMapperInterface;
 
-final class MapMarkerMapper extends AbstractMapper
+final class MapMarkerMapper extends AbstractMapper implements MapMarkerMapperInterface
 {
     /**
      * {@inheritDoc}
