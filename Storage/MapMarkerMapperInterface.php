@@ -13,5 +13,11 @@ namespace Map\Storage;
 
 interface MapMarkerMapperInterface
 {
-    
+    /**
+     * Fetch all markers associated with map id
+     * 
+     * @param int $mapId
+     * @return array
+     */
+    public function fetchAll($mapId);
 }

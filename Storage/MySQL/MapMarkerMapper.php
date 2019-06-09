@@ -23,4 +23,21 @@ final class MapMarkerMapper extends AbstractMapper implements MapMarkerMapperInt
     {
         return self::getWithPrefix('bono_module_map_markers');
     }
+
+    /**
+     * Fetch all markers associated with map id
+     * 
+     * @param int $mapId
+     * @return array
+     */
+    public function fetchAll($mapId)
+    {
+        $db = $this->db->select('*')
+                       ->from(self::getTableName())
+                       ->whereEquals('map_id', $mapId)
+                       ->orderBy('id')
+                       ->desc();
+
+        return $db->queryAll();
+    }
 }
