@@ -1,0 +1,15 @@
+<?php
+
+use Map\Service\MapService;
+
+?>
+
+<div id="<?= $config['id']; ?>" style="height: 500px;"></div>
+
+<script src="<?= MapService::createServiceUrl($config['key']); ?>"></script>
+
+<script>
+    window.mapConfig = JSON.parse('<?= json_encode($config); ?>');
+</script>
+
+<script src="<?= $this->createAssetUrl('Map', '/google.maps.js'); ?>"></script>
