@@ -5,6 +5,10 @@ return array(
         'controller' => 'Admin:Map@indexAction'
     ),
 
+    '/%s/module/map/view/(:var)' => array(
+        'controller' => 'Admin:Map@viewAction'
+    ),
+
     '/%s/module/map/add' => array(
         'controller' => 'Admin:Map@addAction'
     ),

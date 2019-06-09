@@ -17,6 +17,31 @@ use Cms\Controller\Admin\AbstractController;
 final class Map extends AbstractController
 {
     /**
+     * Renders a map by its id
+     * 
+     * @param int $mapId
+     * @return string
+     */
+    public function viewAction($mapId)
+    {
+        $map = $this->getModuleService('mapService')->fetchById($mapId);
+
+        // Make sure right supplied
+        if ($map !== false) {
+            // Append breadcrumbs
+            $this->view->getBreadcrumbBag()->addOne('Maps', 'Map:Admin:Map@indexAction')
+                                           ->addOne('View a map');
+
+            return $this->view->render('map/view', array(
+                'map' => $map,
+                'markers' => $this->getModuleService('mapMarkerService')->fetchList($mapId)
+            ));
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Renders the form
      * 
      * @param \Krystal\Stdlib\VirtualEntity $map
