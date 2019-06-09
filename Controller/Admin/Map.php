@@ -33,8 +33,14 @@ final class Map extends AbstractController
                                            ->addOne('View a map');
 
             return $this->view->render('map/view', array(
-                'map' => $map,
-                'markers' => $this->getModuleService('mapMarkerService')->fetchList($mapId)
+                'config' => array(
+                    'key' => $map->getApiKey(),
+                    'id' => sprintf('map-%s', $map->getId()),
+                    'lat' => $map->getLat(),
+                    'lng' => $map->getLng(),
+                    'zoom' => $map->getZoom(),
+                    'markers' => $this->getModuleService('mapMarkerService')->fetchList($mapId)
+                )
             ));
         } else {
             return false;
