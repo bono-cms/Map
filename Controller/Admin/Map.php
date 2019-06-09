@@ -29,7 +29,8 @@ final class Map extends AbstractController
                                        ->addOne($map->getId() ? 'Update map' : 'Add new map');
 
         return $this->view->render('form', array(
-            'map' => $map
+            'map' => $map,
+            'markers' => $map->getId() ? $this->getModuleService('mapMarkerService')->fetchAll($map->getId()) : false
         ));
     }
 
