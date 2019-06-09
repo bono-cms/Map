@@ -67,9 +67,13 @@ defined('KRYSTAL') or die;
 
         </form>
     </div>
-    
+
     <?php if ($markers !== false): ?>
     <div class="tab-pane container fade" id="markers">
+        <p>
+            <a class="btn btn-primary" href="<?= $this->url('Map:Admin:MapMarker@addAction', $map->getId()); ?>"><?php $this->show('Add new marker'); ?></a>
+        </p>
+
         <?= $this->widget(new GridViewWidget($markers, array(
             'tableClass' => 'table table-hover table-bordered table-striped',
             'columns' => array(
