@@ -28,7 +28,7 @@ final class Map extends AbstractController
         $this->view->getBreadcrumbBag()->addOne('Maps', 'Map:Admin:Map@indexAction')
                                        ->addOne($map->getId() ? 'Update map' : 'Add new map');
 
-        return $this->view->render('form', array(
+        return $this->view->render('map/form', array(
             'map' => $map,
             'markers' => $map->getId() ? $this->getModuleService('mapMarkerService')->fetchAll($map->getId()) : false
         ));
@@ -44,7 +44,7 @@ final class Map extends AbstractController
         // Append breadcrumbs
         $this->view->getBreadcrumbBag()->addOne('Maps', 'Map:Admin:Map@indexAction');
 
-        return $this->view->render('index', array(
+        return $this->view->render('map/index', array(
             'maps' => $this->getModuleService('mapService')->fetchAll()
         ));
     }
