@@ -67,7 +67,7 @@ final class MapMarkerService extends AbstractManager
      */
     public function deleteById($id)
     {
-        return $this->mapMarkerMapper->deleteById($id);
+        return $this->mapMarkerMapper->deleteByPk($id);
     }
 
     /**
