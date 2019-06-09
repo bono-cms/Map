@@ -12,12 +12,12 @@ defined('KRYSTAL') or die;
     <!-- Nav tabs -->
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#map"><i class="fas fa-map"></i> Map</a>
+            <a class="nav-link active" data-toggle="tab" href="#map"><i class="fas fa-map"></i> <?php $this->show('Map'); ?></a>
         </li>
 
         <?php if ($markers !== false): ?>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#markers"><i class="fas fa-map-marker-alt"></i> Markers</a>
+            <a class="nav-link" data-toggle="tab" href="#markers"><i class="fas fa-map-marker-alt"></i> <?php $this->show('Markers'); ?> <span class="text-muted">(<?= count($markers); ?>)</span></a>
         </li>
         <?php endif; ?>
     </ul>
