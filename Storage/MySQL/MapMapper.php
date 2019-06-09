@@ -31,9 +31,24 @@ final class MapMapper extends AbstractMapper implements MapMapperInterface
      */
     public function fetchAll()
     {
-        $db = $this->db->select('*')
+        // To be selected and grouped
+        $columns = array(
+            self::column('id'),
+            self::column('lat'),
+            self::column('lng'),
+            self::column('zoom'),
+            self::column('api_key')
+        );
+
+        $db = $this->db->select($columns)
+                       ->count(MapMarkerMapper::column('id'), 'marker_count')
                        ->from(self::getTableName())
-                       ->orderBy('id')
+                       // Marker relation
+                       ->leftJoin(MapMarkerMapper::getTableName(), array(
+                            MapMarkerMapper::column('map_id') => self::getRawColumn('id')
+                       ))
+                       ->groupBy($columns)
+                       ->orderBy(self::column('id'))
                        ->desc();
 
         return $db->queryAll();
