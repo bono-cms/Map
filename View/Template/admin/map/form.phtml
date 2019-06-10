@@ -70,45 +70,47 @@ defined('KRYSTAL') or die;
 
     <?php if ($markers !== false): ?>
     <div class="tab-pane container fade" id="markers">
-        <p>
-            <a class="btn btn-primary" href="<?= $this->url('Map:Admin:MapMarker@addAction', $map->getId()); ?>"><?php $this->show('Add new marker'); ?></a>
-        </p>
+        <div class="card">
+            <p>
+                <a class="btn btn-primary" href="<?= $this->url('Map:Admin:MapMarker@addAction', $map->getId()); ?>"><?php $this->show('Add new marker'); ?></a>
+            </p>
 
-        <?= $this->widget(new GridViewWidget($markers, array(
-            'tableClass' => 'table table-hover table-bordered table-striped',
-            'columns' => array(
-                array(
-                    'column' => 'id',
-                    'label' => '#'
+            <?= $this->widget(new GridViewWidget($markers, array(
+                'tableClass' => 'table table-hover table-bordered table-striped',
+                'columns' => array(
+                    array(
+                        'column' => 'id',
+                        'label' => '#'
+                    ),
+
+                    array(
+                        'column' => 'lat',
+                        'label' => 'Latitude'
+                    ),
+
+                    array(
+                        'column' => 'lng',
+                        'label' => 'Longitude'
+                    ),
                 ),
 
-                array(
-                    'column' => 'lat',
-                    'label' => 'Latitude'
-                ),
+                'actions' => array(
+                    'edit' => function($row){
+                        return Icon::edit(
+                            $this->url('Map:Admin:MapMarker@editAction', $row['id']),
+                            $this->translate('Edit this marker')
+                        );
+                    },
 
-                array(
-                    'column' => 'lng',
-                    'label' => 'Longitude'
-                ),
-            ),
-
-            'actions' => array(
-                'edit' => function($row){
-                    return Icon::edit(
-                        $this->url('Map:Admin:MapMarker@editAction', $row['id']),
-                        $this->translate('Edit this marker')
-                    );
-                },
-
-                'remove' => function($row){
-                    return Icon::remove(
-                        $this->url('Map:Admin:MapMarker@deleteAction', $row['id']), 
-                        $this->translate('Remove this marker')
-                    );
-                }
-            )
-        ))); ?>
+                    'remove' => function($row){
+                        return Icon::remove(
+                            $this->url('Map:Admin:MapMarker@deleteAction', $row['id']), 
+                            $this->translate('Remove this marker')
+                        );
+                    }
+                )
+            ))); ?>
+        </div>
     </div>
     <?php endif; ?>
 </div>
