@@ -74,15 +74,7 @@ final class SiteService
         // Make sure right map ID supplied
         if ($map !== false) {
             return $this->view->renderRaw('Map', 'admin', 'map/view', array(
-                'config' => array(
-                    'key' => $map->getApiKey(),
-                    'id' => sprintf('map-%s', $map->getId()),
-                    'lat' => $map->getLat(),
-                    'lng' => $map->getLng(),
-                    'zoom' => $map->getZoom(),
-                    'height' => $map->getHeight(),
-                    'markers' => $this->mapMarkerService->fetchAll($id, false)
-                )
+                'config' => $this->mapMarkerService->createConfiguration($map)
             ));
 
         } else {

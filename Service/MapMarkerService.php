@@ -54,6 +54,26 @@ final class MapMarkerService extends AbstractManager
     }
 
     /**
+     * Creates shared map configuration
+     * 
+     * @param \Krystal\Stdlib\VirtualEntity $map
+     * @return array
+     */
+    public function createConfiguration(VirtualEntity $map)
+    {
+        // Required parameters for rendering
+        return array(
+            'key' => $map->getApiKey(),
+            'id' => sprintf('map-%s', $map->getId()),
+            'lat' => $map->getLat(),
+            'lng' => $map->getLng(),
+            'zoom' => $map->getZoom(),
+            'height' => $map->getHeight(),
+            'markers' => $this->fetchAll($map->getId(), false)
+        );
+    }
+
+    /**
      * Returns last marker id
      * 
      * @return int
