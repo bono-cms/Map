@@ -11,7 +11,9 @@
 
 namespace Map\Service;
 
+use Krystal\Security\Filter;
 use Krystal\Stdlib\VirtualEntity;
+use Krystal\Stdlib\ArrayUtils;
 use Cms\Service\AbstractManager;
 use Map\Storage\MapMarkerMapperInterface;
 
@@ -45,7 +47,8 @@ final class MapMarkerService extends AbstractManager
                ->setMapId($row['map_id'])
                ->setLat($row['lat'])
                ->setLng($row['lng'])
-               ->setDraggable($row['draggable'], VirtualEntity::FILTER_BOOL);
+               ->setDraggable($row['draggable'], VirtualEntity::FILTER_BOOL)
+               ->setDescription($row['description']);
 
         return $entity;
     }
