@@ -25,7 +25,8 @@ final class MapMarker extends AbstractController
     private function createForm(VirtualEntity $marker)
     {
         // Append breadcrumbs
-        $this->view->getBreadcrumbBag()->addOne('Edit the map', $this->createUrl('Map:Admin:Map@editAction', array($marker->getMapId())))
+        $this->view->getBreadcrumbBag()->addOne('Maps', $this->createUrl('Map:Admin:Map@indexAction'))
+                                       ->addOne('Edit the map', $this->createUrl('Map:Admin:Map@editAction', array($marker->getMapId())))
                                        ->addOne($marker->getId() ? 'Update marker' : 'Add new marker');
 
         return $this->view->render('marker/form', array(

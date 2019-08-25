@@ -14,6 +14,7 @@ namespace Map;
 use Cms\AbstractCmsModule;
 use Map\Service\MapService;
 use Map\Service\MapMarkerService;
+use Map\Service\SiteService;
 
 final class Module extends AbstractCmsModule
 {
@@ -22,9 +23,13 @@ final class Module extends AbstractCmsModule
      */
     public function getServiceProviders()
     {
+        $mapService = new MapService($this->getMapper('\Map\Storage\MySQL\MapMapper'));
+        $mapMarkerService = new MapMarkerService($this->getMapper('\Map\Storage\MySQL\MapMarkerMapper'));
+
         return array(
-            'mapService' => new MapService($this->getMapper('\Map\Storage\MySQL\MapMapper')),
-            'mapMarkerService' => new MapMarkerService($this->getMapper('\Map\Storage\MySQL\MapMarkerMapper'))
+            'siteService' => new SiteService($mapService, $mapMarkerService),
+            'mapService' => $mapService,
+            'mapMarkerService' => $mapMarkerService
         );
     }
 }

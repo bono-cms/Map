@@ -17,7 +17,8 @@ interface MapMarkerMapperInterface
      * Fetch all markers associated with map id
      * 
      * @param int $mapId
+     * @param boolean $all Whether to fetch all columns or lat, lng only
      * @return array
      */
-    public function fetchAll($mapId);
+    public function fetchAll($mapId, $all = true);
 }

@@ -82,6 +82,17 @@ final class MapMarkerService extends AbstractManager
     }
 
     /**
+     * Fetch markers as a list
+     * 
+     * @param int $mapId
+     * @return array
+     */
+    public function fetchList($mapId)
+    {
+        return $this->mapMarkerMapper->fetchAll($mapId, false);
+    }
+
+    /**
      * Fetch all markers
      * 
      * @param int $mapId
