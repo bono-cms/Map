@@ -30,7 +30,7 @@ final class Map extends AbstractController
         if ($map !== false) {
             // Append breadcrumbs
             $this->view->getBreadcrumbBag()->addOne('Maps', 'Map:Admin:Map@indexAction')
-                                           ->addOne('View a map');
+                                           ->addOne($this->translator->translate('Viewing the "%s" map', $map->getName()));
 
             return $this->view->render('map/view', array(
                 'config' => array(
