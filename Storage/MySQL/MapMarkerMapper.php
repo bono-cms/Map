@@ -28,14 +28,11 @@ final class MapMarkerMapper extends AbstractMapper implements MapMarkerMapperInt
      * Fetch all markers associated with map id
      * 
      * @param int $mapId
-     * @param boolean $all Whether to fetch all columns or lat, lng only
      * @return array
      */
-    public function fetchAll($mapId, $all = true)
+    public function fetchAll($mapId)
     {
-        $columns = $all === true ? '*' : array('lat', 'lng');
-
-        $db = $this->db->select($columns)
+        $db = $this->db->select('*')
                        ->from(self::getTableName())
                        ->whereEquals('map_id', $mapId)
                        ->orderBy('id')
