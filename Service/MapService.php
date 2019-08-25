@@ -45,7 +45,8 @@ final class MapService extends AbstractManager
                ->setLat($row['lat'])
                ->setLng($row['lng'])
                ->setZoom($row['zoom'])
-               ->setApiKey($row['api_key']);
+               ->setApiKey($row['api_key'])
+               ->setName($row['name']);
 
         if (isset($row['marker_count'])) {
             $entity->setMarkerCount($row['marker_count']);

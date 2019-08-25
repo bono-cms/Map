@@ -4,7 +4,8 @@ CREATE TABLE `bono_module_map_maps` (
     `lat` varchar(255) NOT NULL COMMENT 'Initial latitude',
     `lng` varchar(255) NOT NULL COMMENT 'Initial longtitude',
     `zoom` INT NOT NULL COMMENT 'Initial zoom level',
-    `api_key` varchar(255) NOT NULL COMMENT 'Personal API Key'
+    `api_key` varchar(255) NOT NULL COMMENT 'Personal API Key',
+    `name` varchar(255) NOT NULL COMMENT 'Map name'
 );
 
 CREATE TABLE `bono_module_map_markers` (
