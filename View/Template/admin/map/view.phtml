@@ -5,11 +5,11 @@ use Krystal\Security\Filter;
 
 ?>
 
-<div id="<?= $config['id']; ?>" style="height: 500px;"></div>
+<div id="<?= $config['id']; ?>" style="height: <?= $config['height']; ?>px;"></div>
 
 <script src="<?= MapService::createServiceUrl($config['key']); ?>"></script>
 
-<input id="g-json-data" value="<?= Filter::specialChars(json_encode($config)); ?>" />
+<input type="hidden" id="g-json-data" value="<?= Filter::specialChars(json_encode($config)); ?>" />
 
 <script>
     var data = document.getElementById('g-json-data').value;

@@ -80,6 +80,7 @@ final class SiteService
                     'lat' => $map->getLat(),
                     'lng' => $map->getLng(),
                     'zoom' => $map->getZoom(),
+                    'height' => $map->getHeight(),
                     'markers' => $this->mapMarkerService->fetchAll($id, false)
                 )
             ));

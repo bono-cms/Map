@@ -39,6 +39,7 @@ final class Map extends AbstractController
                     'lat' => $map->getLat(),
                     'lng' => $map->getLng(),
                     'zoom' => $map->getZoom(),
+                    'height' => $map->getHeight(),
                     'markers' => $this->getModuleService('mapMarkerService')->fetchAll($mapId, false)
                 )
             ));
@@ -89,7 +90,8 @@ final class Map extends AbstractController
     public function addAction()
     {
         $map = new VirtualEntity();
-        $map->setZoom(5); // Default
+        $map->setZoom(5)
+            ->setHeight(500); // Default
 
         return $this->createForm($map, 'Add new map');
     }
