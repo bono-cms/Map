@@ -44,7 +44,8 @@ final class MapMarkerService extends AbstractManager
         $entity->setId($row['id'])
                ->setMapId($row['map_id'])
                ->setLat($row['lat'])
-               ->setLng($row['lng']);
+               ->setLng($row['lng'])
+               ->setDraggable($row['draggable'], VirtualEntity::FILTER_BOOL);
 
         return $entity;
     }
@@ -82,25 +83,21 @@ final class MapMarkerService extends AbstractManager
     }
 
     /**
-     * Fetch markers as a list
-     * 
-     * @param int $mapId
-     * @return array
-     */
-    public function fetchList($mapId)
-    {
-        return $this->mapMarkerMapper->fetchAll($mapId, false);
-    }
-
-    /**
      * Fetch all markers
      * 
      * @param int $mapId
+     * @param boolean $hydrate
      * @return array
      */
-    public function fetchAll($mapId)
+    public function fetchAll($mapId, $hydrate = false)
     {
-        return $this->prepareResults($this->mapMarkerMapper->fetchAll($mapId));
+        $rows = $this->mapMarkerMapper->fetchAll($mapId);
+
+        if ($hydrate == true) {
+            $rows = $this->prepareResults($rows);
+        }
+
+        return $rows;
     }
 
     /**

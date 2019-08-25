@@ -39,7 +39,7 @@ final class Map extends AbstractController
                     'lat' => $map->getLat(),
                     'lng' => $map->getLng(),
                     'zoom' => $map->getZoom(),
-                    'markers' => $this->getModuleService('mapMarkerService')->fetchList($mapId)
+                    'markers' => $this->getModuleService('mapMarkerService')->fetchAll($mapId, false)
                 )
             ));
         } else {

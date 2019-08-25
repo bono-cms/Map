@@ -139,6 +139,7 @@
     if (config.markers.length) {
         for (i = 0; i < config.markers.length; i++) {
             var marker = new google.maps.Marker({
+                draggable: config.markers[i].draggable == 1,
                 position: {
                     lat: parseFloat(config.markers[i].lat),
                     lng: parseFloat(config.markers[i].lng)
