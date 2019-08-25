@@ -149,6 +149,17 @@
                 }, 
                 map: map
             });
+
+            // If description provided, then attach InfoWindow
+            if (current.description) {
+                var infowindow = new google.maps.InfoWindow({
+                    content: (current.description)
+                });
+
+                marker.addListener('click', function() {
+                    infowindow.open(map, marker);
+                });
+            }
         }
     }
 

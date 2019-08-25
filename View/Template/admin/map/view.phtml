@@ -1,6 +1,7 @@
 <?php
 
 use Map\Service\MapService;
+use Krystal\Security\Filter;
 
 ?>
 
@@ -8,8 +9,11 @@ use Map\Service\MapService;
 
 <script src="<?= MapService::createServiceUrl($config['key']); ?>"></script>
 
+<input id="g-json-data" value="<?= Filter::specialChars(json_encode($config)); ?>" />
+
 <script>
-    window.mapConfig = JSON.parse('<?= json_encode($config); ?>');
+    var data = document.getElementById('g-json-data').value;
+    window.mapConfig = JSON.parse(data);
 </script>
 
 <script src="<?= $this->createAssetUrl('Map', '/google.maps.js'); ?>"></script>
