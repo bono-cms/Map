@@ -90,6 +90,14 @@ defined('KRYSTAL') or die;
                         'column' => 'lng',
                         'label' => 'Longitude'
                     ),
+
+                    array(
+                        'column' => 'draggable',
+                        'translateable' => true,
+                        'value' => function($row){
+                            return $row['draggable'] ? 'Yes' : 'No';
+                        }
+                    )
                 ),
 
                 'actions' => array(
