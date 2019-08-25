@@ -39,7 +39,8 @@ final class MapMapper extends AbstractMapper implements MapMapperInterface
             self::column('zoom'),
             self::column('api_key'),
             self::column('name'),
-            self::column('height')
+            self::column('height'),
+            self::column('style')
         );
 
         $db = $this->db->select($columns)
