@@ -51,13 +51,14 @@ final class Map extends AbstractController
      * Renders the form
      * 
      * @param \Krystal\Stdlib\VirtualEntity $map
+     * @param string $title Page title
      * @return string
      */
-    private function createForm(VirtualEntity $map)
+    private function createForm(VirtualEntity $map, $title)
     {
         // Append breadcrumbs
         $this->view->getBreadcrumbBag()->addOne('Maps', 'Map:Admin:Map@indexAction')
-                                       ->addOne($map->getId() ? 'Update map' : 'Add new map');
+                                       ->addOne($title);
 
         return $this->view->render('map/form', array(
             'map' => $map,
@@ -90,7 +91,7 @@ final class Map extends AbstractController
         $map = new VirtualEntity();
         $map->setZoom(5); // Default
 
-        return $this->createForm($map);
+        return $this->createForm($map, 'Add new map');
     }
 
     /**
@@ -104,7 +105,7 @@ final class Map extends AbstractController
         $map = $this->getModuleService('mapService')->fetchById($id);
 
         if ($map !== false) {
-            return $this->createForm($map);
+            return $this->createForm($map, $this->translator->translate('Edit the map "%s"', $map->getName()));
         } else {
             return false;
         }

@@ -20,21 +20,27 @@ final class MapMarker extends AbstractController
      * Create shared form
      * 
      * @param \Krystal\Stdlib\VirtualEntity $marker
-     * @return string
+     * @return string|boolean
      */
     private function createForm(VirtualEntity $marker)
     {
-        // Load view plugins
-        $this->view->getPluginBag()->load($this->getWysiwygPluginName());
+        $map = $this->getModuleService('mapService')->fetchById($marker->getMapId());
 
-        // Append breadcrumbs
-        $this->view->getBreadcrumbBag()->addOne('Maps', $this->createUrl('Map:Admin:Map@indexAction'))
-                                       ->addOne('Edit the map', $this->createUrl('Map:Admin:Map@editAction', array($marker->getMapId())))
-                                       ->addOne($marker->getId() ? 'Update marker' : 'Add new marker');
+        if ($map !== false) {
+            // Load view plugins
+            $this->view->getPluginBag()->load($this->getWysiwygPluginName());
 
-        return $this->view->render('marker/form', array(
-            'marker' => $marker
-        ));
+            // Append breadcrumbs
+            $this->view->getBreadcrumbBag()->addOne('Maps', $this->createUrl('Map:Admin:Map@indexAction'))
+                                           ->addOne($this->translator->translate('Edit the map "%s"', $map->getName()), $this->createUrl('Map:Admin:Map@editAction', array($marker->getMapId())))
+                                           ->addOne($marker->getId() ? 'Update marker' : 'Add new marker');
+
+            return $this->view->render('marker/form', array(
+                'marker' => $marker
+            ));
+        } else {
+            return false;
+        }
     }
 
     /**
