@@ -24,6 +24,9 @@ final class MapMarker extends AbstractController
      */
     private function createForm(VirtualEntity $marker)
     {
+        // Load view plugins
+        $this->view->getPluginBag()->load($this->getWysiwygPluginName());
+
         // Append breadcrumbs
         $this->view->getBreadcrumbBag()->addOne('Maps', $this->createUrl('Map:Admin:Map@indexAction'))
                                        ->addOne('Edit the map', $this->createUrl('Map:Admin:Map@editAction', array($marker->getMapId())))
