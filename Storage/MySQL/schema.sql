@@ -12,6 +12,7 @@ CREATE TABLE `bono_module_map_markers` (
     `map_id` INT NOT NULL COMMENT 'Attached map ID',
     `lat` varchar(255) NOT NULL COMMENT 'Marker latitude',
     `lng` varchar(255) NOT NULL COMMENT 'Marker longtitude',
+    `draggable` BOOLEAN NOT NULL COMMENT 'Whether this marker is draggable',
 
     FOREIGN KEY (map_id) REFERENCES bono_module_map_maps(id) ON DELETE CASCADE
 );
