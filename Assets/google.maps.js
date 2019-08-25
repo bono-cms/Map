@@ -138,11 +138,14 @@
     // Draw markers if available
     if (config.markers.length) {
         for (i = 0; i < config.markers.length; i++) {
+            // Current marker
+            var current = config.markers[i];
+
             var marker = new google.maps.Marker({
-                draggable: config.markers[i].draggable == 1,
+                draggable: current.draggable == 1,
                 position: {
-                    lat: parseFloat(config.markers[i].lat),
-                    lng: parseFloat(config.markers[i].lng)
+                    lat: parseFloat(current.lat),
+                    lng: parseFloat(current.lng)
                 }, 
                 map: map
             });
