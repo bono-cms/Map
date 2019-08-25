@@ -20,9 +20,10 @@ final class MapMarker extends AbstractController
      * Create shared form
      * 
      * @param \Krystal\Stdlib\VirtualEntity $marker
+     * @param string $title Page title
      * @return string|boolean
      */
-    private function createForm(VirtualEntity $marker)
+    private function createForm(VirtualEntity $marker, $title)
     {
         $map = $this->getModuleService('mapService')->fetchById($marker->getMapId());
 
@@ -33,7 +34,7 @@ final class MapMarker extends AbstractController
             // Append breadcrumbs
             $this->view->getBreadcrumbBag()->addOne('Maps', $this->createUrl('Map:Admin:Map@indexAction'))
                                            ->addOne($this->translator->translate('Edit the map "%s"', $map->getName()), $this->createUrl('Map:Admin:Map@editAction', array($marker->getMapId())))
-                                           ->addOne($marker->getId() ? 'Update marker' : 'Add new marker');
+                                           ->addOne($title);
 
             return $this->view->render('marker/form', array(
                 'marker' => $marker
@@ -54,7 +55,7 @@ final class MapMarker extends AbstractController
         $marker = new VirtualEntity();
         $marker->setMapId($mapId);
 
-        return $this->createForm($marker);
+        return $this->createForm($marker, 'Add new marker');
     }
 
     /**
@@ -68,7 +69,7 @@ final class MapMarker extends AbstractController
         $marker = $this->getModuleService('mapMarkerService')->fetchById($id);
 
         if ($marker !== false) {
-            return $this->createForm($marker);
+            return $this->createForm($marker, $this->translator->translate('Update marker #%s', $id));
         } else {
             return false;
         }
