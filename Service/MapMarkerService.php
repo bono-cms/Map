@@ -69,6 +69,7 @@ final class MapMarkerService extends AbstractManager
             'lng' => $map->getLng(),
             'zoom' => $map->getZoom(),
             'height' => $map->getHeight(),
+            'style' => $map->getStyle(),
             'markers' => $this->fetchAll($map->getId(), false)
         );
     }
