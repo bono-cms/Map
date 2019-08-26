@@ -19,7 +19,8 @@ defined('KRYSTAL') or die;
 </div>
 
 <div class="card">
-    <?php $this->loadPartial('items-per-page', array('caption' => 'Maps')); ?>
+    <h4><i class="fas fa-map"></i> <?php $this->show('Maps'); ?> <small>(<?= count($maps); ?>)</small></h4>
+    <hr >
 
     <?= $this->widget(new GridViewWidget($maps, array(
         'tableClass' => 'table table-hover table-bordered table-striped',
