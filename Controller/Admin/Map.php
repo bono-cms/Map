@@ -137,15 +137,11 @@ final class Map extends AbstractController
             'height' => new Pattern\Height,
             'lat' => array(
                 'required' => true,
-                'rules' => array(
-                    'Latitude'
-                )
+                'rules' => array('Latitude')
             ),
             'lng' => array(
                 'required' => true,
-                'rules' => array(
-                    'Longitude'
-                )
+                'rules' => array('Longitude')
             ),
             'api_key' => array(
                 'required' => true,
@@ -154,6 +150,10 @@ final class Map extends AbstractController
                         'message' => 'Google API key can not be empty'
                     )
                 )
+            ),
+            'style' => array(
+                'required' => false,
+                'rules' => array('Json')
             )
         );
     }
