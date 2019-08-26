@@ -56,7 +56,8 @@ defined('KRYSTAL') or die;
             'view' => function($row){
                 return Icon::view(
                     $this->url('Map:Admin:Map@viewAction', $row['id']),
-                    $this->translate('View this map')
+                    $this->translate('View this map'),
+                    false
                 );
             },
 
