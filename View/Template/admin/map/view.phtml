@@ -7,7 +7,7 @@ use Krystal\Security\Filter;
 
 <div id="<?= $config['id']; ?>" style="height: <?= $config['height']; ?>px;"></div>
 
-<script src="<?= MapService::createServiceUrl($config['key']); ?>"></script>
+<script src="<?= MapService::createServiceUrl($config['key'], $config['language']); ?>"></script>
 
 <input type="hidden" id="g-json-data" value="<?= Filter::specialChars(json_encode($config)); ?>" />
 

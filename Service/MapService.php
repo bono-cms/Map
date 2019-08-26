@@ -62,13 +62,19 @@ final class MapService extends AbstractManager
      * Creates service Google API from API key
      * 
      * @param string $key API key provided by Google
+     * @param string $language Optional language
      * @return string
      */
-    public static function createServiceUrl($key)
+    public static function createServiceUrl($key, $language = null)
     {
         $base = 'https://maps.googleapis.com/maps/api/js';
 
-        return $base . '?' . http_build_query(array('key' => $key));
+        // Consider empty string as NULL
+        if (empty($language)) {
+            $language = null;
+        }
+
+        return $base . '?' . http_build_query(array('key' => $key, 'language' => $language));
     }
 
     /**
