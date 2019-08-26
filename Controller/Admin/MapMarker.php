@@ -98,15 +98,40 @@ final class MapMarker extends AbstractController
     {
         $input = $this->request->getPost('marker');
 
-        $mapMarkerService = $this->getModuleService('mapMarkerService');
-        $mapMarkerService->save($input);
+        $formValidator = $this->createValidator(array(
+            'input' => array(
+                'source' => $input,
+                'definition' => array(
+                    'lat' => array(
+                        'required' => true,
+                        'rules' => array(
+                            'Latitude'
+                        )
+                    ),
+                    'lng' => array(
+                        'required' => true,
+                        'rules' => array(
+                            'Longitude'
+                        )
+                    )
+                )
+            )
+        ));
 
-        if ($input['id']) {
-            $this->flashBag->set('success', 'The element has been updated successfully');
-            return 1;
+        if ($formValidator->isValid()) {
+            $mapMarkerService = $this->getModuleService('mapMarkerService');
+            $mapMarkerService->save($input);
+
+            if ($input['id']) {
+                $this->flashBag->set('success', 'The element has been updated successfully');
+                return 1;
+            } else {
+                $this->flashBag->set('success', 'The element has been created successfully');
+                return $mapMarkerService->getLastId();
+            }
+
         } else {
-            $this->flashBag->set('success', 'The element has been created successfully');
-            return $mapMarkerService->getLastId();
+            return $formValidator->getErrors();
         }
     }
 }

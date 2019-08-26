@@ -11,6 +11,7 @@
 
 namespace Map\Controller\Admin;
 
+use Krystal\Validate\Pattern;
 use Krystal\Stdlib\VirtualEntity;
 use Cms\Controller\Admin\AbstractController;
 use Map\Collection\LanguageCollection;
@@ -125,6 +126,39 @@ final class Map extends AbstractController
     }
 
     /**
+     * Returns form validation rules
+     * 
+     * @return array
+     */
+    private function getRules()
+    {
+        return array(
+            'name' => new Pattern\Name,
+            'height' => new Pattern\Height,
+            'lat' => array(
+                'required' => true,
+                'rules' => array(
+                    'Latitude'
+                )
+            ),
+            'lng' => array(
+                'required' => true,
+                'rules' => array(
+                    'Longitude'
+                )
+            ),
+            'api_key' => array(
+                'required' => true,
+                'rules' => array(
+                    'NotEmpty' => array(
+                        'message' => 'Google API key can not be empty'
+                    )
+                )
+            )
+        );
+    }
+
+    /**
      * Saves a map
      * 
      * @return mixed
@@ -134,17 +168,29 @@ final class Map extends AbstractController
         // Raw POST data
         $input = $this->request->getPost('map');
 
-        $mapService = $this->getModuleService('mapService');
-        $mapService->save($input);
+        $formValidator = $this->createValidator(array(
+            'input' => array(
+                'source' => $input,
+                'definition' => $this->getRules()
+            )
+        ));
 
-        if ($input['id']) {
+        if ($formValidator->isValid()) {
 
-            $this->flashBag->set('success', 'The element has been updated successfully');
-            return 1;
+            $mapService = $this->getModuleService('mapService');
+            $mapService->save($input);
+
+            if ($input['id']) {
+                $this->flashBag->set('success', 'The element has been updated successfully');
+                return 1;
+            } else {
+
+                $this->flashBag->set('success', 'The element has been created successfully');
+                return $mapService->getLastId();
+            }
+
         } else {
-
-            $this->flashBag->set('success', 'The element has been created successfully');
-            return $mapService->getLastId();
+            return $formValidator->getErrors();
         }
     }
 }
