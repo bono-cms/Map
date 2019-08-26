@@ -1,19 +1,15 @@
 <?php
 
-use Map\Service\MapService;
 use Krystal\Security\Filter;
+use Map\Service\MapService;
+
+// Append required scripts to run maps
+$this->getPluginBag()->appendScripts(array(
+    MapService::createServiceUrl($config['key'], $config['language']),
+    '@Map/google.maps.js'
+));
 
 ?>
 
 <div id="<?= $config['id']; ?>" style="height: <?= $config['height']; ?>px;"></div>
-
-<script src="<?= MapService::createServiceUrl($config['key'], $config['language']); ?>"></script>
-
-<input type="hidden" id="g-json-data" value="<?= Filter::specialChars(json_encode($config)); ?>" />
-
-<script>
-    var data = document.getElementById('g-json-data').value;
-    window.mapConfig = JSON.parse(data);
-</script>
-
-<script src="<?= $this->createAssetUrl('Map', '/google.maps.js'); ?>"></script>
+<input type="hidden" class="map-configuration-input" value="<?= Filter::specialChars(json_encode($config)); ?>" />
