@@ -8,8 +8,10 @@ Before you get started, please [obtain your API](https://developers.google.com/m
 ## Features
 
 - Google Maps
-- Basic configuration
+- Basic configuration (height, lat, lng, zoom, language)
+- Custom styling support
 - Markers. Just provide their latitude and longitude
+- Optional information window for markers
 - Unlimited number of maps. Create and render them as many as you want!
 
 ## Installation
