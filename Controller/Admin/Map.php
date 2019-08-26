@@ -13,6 +13,7 @@ namespace Map\Controller\Admin;
 
 use Krystal\Stdlib\VirtualEntity;
 use Cms\Controller\Admin\AbstractController;
+use Map\Collection\LanguageCollection;
 
 final class Map extends AbstractController
 {
@@ -35,6 +36,7 @@ final class Map extends AbstractController
             return $this->view->render('map/view', array(
                 'config' => $this->getModuleService('mapMarkerService')->createConfiguration($map)
             ));
+
         } else {
             return false;
         }
@@ -53,9 +55,12 @@ final class Map extends AbstractController
         $this->view->getBreadcrumbBag()->addOne('Maps', 'Map:Admin:Map@indexAction')
                                        ->addOne($title);
 
+        $langCol = new LanguageCollection();
+
         return $this->view->render('map/form', array(
             'map' => $map,
-            'markers' => $map->getId() ? $this->getModuleService('mapMarkerService')->fetchAll($map->getId()) : false
+            'markers' => $map->getId() ? $this->getModuleService('mapMarkerService')->fetchAll($map->getId()) : false,
+            'mapLanguages' => $langCol->getAll()
         ));
     }
 
