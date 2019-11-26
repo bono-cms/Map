@@ -12,6 +12,7 @@
 namespace Map\Controller\Admin;
 
 use Krystal\Stdlib\VirtualEntity;
+use Krystal\Validate\Pattern;
 use Cms\Controller\Admin\AbstractController;
 
 final class MapMarker extends AbstractController
@@ -116,7 +117,8 @@ final class MapMarker extends AbstractController
                         'rules' => array(
                             'Longitude'
                         )
-                    )
+                    ),
+                    'icon' => new Pattern\Url
                 )
             )
         ));
