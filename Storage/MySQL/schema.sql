@@ -23,7 +23,7 @@ CREATE TABLE `bono_module_map_markers` (
 );
 
 CREATE TABLE `bono_module_map_markers_translations` (
-    `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `id` INT NOT NULL,
     `lang_id` INT NOT NULL COMMENT 'Language identificator',
     `description` TEXT NOT NULL COMMENT 'Content for InfoWindow',
 
