@@ -44,6 +44,7 @@ final class MapMarkerService extends AbstractManager
     {
         $entity = new VirtualEntity();
         $entity->setId($row['id'])
+               ->setLangId($row['lang_id'])
                ->setMapId($row['map_id'])
                ->setLat($row['lat'])
                ->setLng($row['lng'])
