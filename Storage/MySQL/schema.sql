@@ -18,7 +18,8 @@ CREATE TABLE `bono_module_map_markers` (
     `lat` varchar(255) NOT NULL COMMENT 'Marker latitude',
     `lng` varchar(255) NOT NULL COMMENT 'Marker longtitude',
     `draggable` BOOLEAN NOT NULL COMMENT 'Whether this marker is draggable',
-    `popup` BOOLEAN NOT NULL COMMENT 'Whether info window should be opened automatically'
+    `popup` BOOLEAN NOT NULL COMMENT 'Whether info window should be opened automatically',
+    `icon` varchar(255) NOT NULL COMMENT 'Optional custom map icon',
 
     FOREIGN KEY (map_id) REFERENCES bono_module_map_maps(id) ON DELETE CASCADE
 );
