@@ -44,6 +44,7 @@ final class MapMarkerService extends AbstractManager
     {
         $entity = new VirtualEntity();
         $entity->setId($row['id'])
+               ->setLangId($row['lang_id'])
                ->setMapId($row['map_id'])
                ->setLat($row['lat'])
                ->setLng($row['lng'])
@@ -97,14 +98,19 @@ final class MapMarkerService extends AbstractManager
     }
 
     /**
-     * Fetch marker by its id
+     * Fetches map marker by its id
      * 
      * @param int $id Marker id
+     * @param boolean $withTranslations Whether to fetch translations
      * @return mixed
      */
-    public function fetchById($id)
+    public function fetchById($id, $withTranslations)
     {
-        return $this->prepareResult($this->mapMarkerMapper->findByPk($id));
+        if ($withTranslations == true) {
+            return $this->prepareResults($this->mapMarkerMapper->fetchById($id, true));
+        } else {
+            return $this->prepareResult($this->mapMarkerMapper->fetchById($id, false));
+        }
     }
 
     /**
@@ -128,11 +134,11 @@ final class MapMarkerService extends AbstractManager
     /**
      * Saves a marker
      * 
-     * @param array $input
+     * @param array $input Raw input data
      * @return boolean
      */
     public function save(array $input)
     {
-        return $this->mapMarkerMapper->persist($input);
+        return $this->mapMarkerMapper->saveEntity($input['marker'], $input['translation']);
     }
 }

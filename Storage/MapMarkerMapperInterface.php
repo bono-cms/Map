@@ -14,6 +14,15 @@ namespace Map\Storage;
 interface MapMarkerMapperInterface
 {
     /**
+     * Fetches map marker by its id
+     * 
+     * @param int $id Marker id
+     * @param boolean $withTranslations Whether to fetch translations
+     * @return mixed
+     */
+    public function fetchById($id, $withTranslations);
+
+    /**
      * Fetch all markers associated with map id
      * 
      * @param int $mapId

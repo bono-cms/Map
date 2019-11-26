@@ -25,6 +25,44 @@ final class MapMarkerMapper extends AbstractMapper implements MapMarkerMapperInt
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public static function getTranslationTable()
+    {
+        return MapMarkerTranslationMapper::getTableName();
+    }
+
+    /**
+     * Returns shared columns to be selected
+     * 
+     * @return array
+     */
+    private function getColumns()
+    {
+        return array(
+            self::column('id'),
+            self::column('map_id'),
+            self::column('lat'),
+            self::column('lng'),
+            self::column('draggable'),
+            MapMarkerTranslationMapper::column('lang_id'),
+            MapMarkerTranslationMapper::column('description')
+        );
+    }
+
+    /**
+     * Fetches map marker by its id
+     * 
+     * @param int $id Marker id
+     * @param boolean $withTranslations Whether to fetch translations
+     * @return mixed
+     */
+    public function fetchById($id, $withTranslations)
+    {
+        return $this->findEntity($this->getColumns(), $id, $withTranslations);
+    }
+
+    /**
      * Fetch all markers associated with map id
      * 
      * @param int $mapId
@@ -32,11 +70,11 @@ final class MapMarkerMapper extends AbstractMapper implements MapMarkerMapperInt
      */
     public function fetchAll($mapId)
     {
-        $db = $this->db->select('*')
-                       ->from(self::getTableName())
-                       ->whereEquals('map_id', $mapId)
-                       ->orderBy('id')
-                       ->desc();
+        $db = $this->createEntitySelect($this->getColumns())
+                   ->whereEquals(MapMarkerTranslationMapper::column('lang_id'), $this->getLangId())
+                   ->andWhereEquals(self::column('map_id'), $mapId)
+                   ->orderBy(self::column('id'))
+                   ->desc();
 
         return $db->queryAll();
     }

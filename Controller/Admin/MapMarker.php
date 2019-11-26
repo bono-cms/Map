@@ -19,13 +19,16 @@ final class MapMarker extends AbstractController
     /**
      * Create shared form
      * 
-     * @param \Krystal\Stdlib\VirtualEntity $marker
+     * @param \Krystal\Stdlib\VirtualEntity|array $marker
      * @param string $title Page title
      * @return string|boolean
      */
-    private function createForm(VirtualEntity $marker, $title)
+    private function createForm($marker, $title)
     {
-        $map = $this->getModuleService('mapService')->fetchById($marker->getMapId());
+        $entity = is_array($marker) ? $marker[0] : $marker;
+
+        $mapId = $entity->getMapId();
+        $map = $this->getModuleService('mapService')->fetchById($mapId);
 
         if ($map !== false) {
             // Load view plugins
@@ -33,7 +36,7 @@ final class MapMarker extends AbstractController
 
             // Append breadcrumbs
             $this->view->getBreadcrumbBag()->addOne('Maps', $this->createUrl('Map:Admin:Map@indexAction'))
-                                           ->addOne($this->translator->translate('Edit the map "%s"', $map->getName()), $this->createUrl('Map:Admin:Map@editAction', array($marker->getMapId())))
+                                           ->addOne($this->translator->translate('Edit the map "%s"', $map->getName()), $this->createUrl('Map:Admin:Map@editAction', array($mapId)))
                                            ->addOne($title);
 
             return $this->view->render('marker/form', array(
@@ -66,7 +69,7 @@ final class MapMarker extends AbstractController
      */
     public function editAction($id)
     {
-        $marker = $this->getModuleService('mapMarkerService')->fetchById($id);
+        $marker = $this->getModuleService('mapMarkerService')->fetchById($id, true);
 
         if ($marker !== false) {
             return $this->createForm($marker, $this->translator->translate('Update marker #%s', $id));
@@ -96,11 +99,11 @@ final class MapMarker extends AbstractController
      */
     public function saveAction()
     {
-        $input = $this->request->getPost('marker');
+        $input = $this->request->getPost();
 
         $formValidator = $this->createValidator(array(
             'input' => array(
-                'source' => $input,
+                'source' => $input['marker'],
                 'definition' => array(
                     'lat' => array(
                         'required' => true,
@@ -122,7 +125,7 @@ final class MapMarker extends AbstractController
             $mapMarkerService = $this->getModuleService('mapMarkerService');
             $mapMarkerService->save($input);
 
-            if ($input['id']) {
+            if ($input['marker']['id']) {
                 $this->flashBag->set('success', 'The element has been updated successfully');
                 return 1;
             } else {

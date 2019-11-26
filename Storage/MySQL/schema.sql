@@ -11,13 +11,22 @@ CREATE TABLE `bono_module_map_maps` (
     `language` varchar(10) NOT NULL COMMENT 'Map language'
 );
 
+/* Markers */
 CREATE TABLE `bono_module_map_markers` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `map_id` INT NOT NULL COMMENT 'Attached map ID',
     `lat` varchar(255) NOT NULL COMMENT 'Marker latitude',
     `lng` varchar(255) NOT NULL COMMENT 'Marker longtitude',
     `draggable` BOOLEAN NOT NULL COMMENT 'Whether this marker is draggable',
-    `description` TEXT NOT NULL COMMENT 'Content for InfoWindow'
 
     FOREIGN KEY (map_id) REFERENCES bono_module_map_maps(id) ON DELETE CASCADE
+);
+
+CREATE TABLE `bono_module_map_markers_translations` (
+    `id` INT NOT NULL,
+    `lang_id` INT NOT NULL COMMENT 'Language identificator',
+    `description` TEXT NOT NULL COMMENT 'Content for InfoWindow',
+
+    FOREIGN KEY (id) REFERENCES bono_module_map_markers(id) ON DELETE CASCADE,
+    FOREIGN KEY (lang_id) REFERENCES bono_module_cms_languages(id) ON DELETE CASCADE
 );
