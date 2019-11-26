@@ -26,7 +26,8 @@
                         lat: parseFloat(current.lat),
                         lng: parseFloat(current.lng)
                     }, 
-                    map: map
+                    map: map,
+                    icon : current.icon !== '' ? current.icon : null
                 });
 
                 // If description provided, then attach InfoWindow
