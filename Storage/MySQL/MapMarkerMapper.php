@@ -51,6 +51,18 @@ final class MapMarkerMapper extends AbstractMapper implements MapMarkerMapperInt
     }
 
     /**
+     * Fetches map marker by its id
+     * 
+     * @param int $id Marker id
+     * @param boolean $withTranslations Whether to fetch translations
+     * @return mixed
+     */
+    public function fetchById($id, $withTranslations)
+    {
+        return $this->findEntity($this->getColumns(), $id, $withTranslations);
+    }
+
+    /**
      * Fetch all markers associated with map id
      * 
      * @param int $mapId
