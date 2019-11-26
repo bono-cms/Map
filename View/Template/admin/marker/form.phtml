@@ -5,6 +5,7 @@ use Cms\Service\LanguageManager;
 
 defined('KRYSTAL') or die;
 
+
 ?>
 
 <form class="card" data-group="marker" autocomplete="off">
@@ -65,11 +66,11 @@ defined('KRYSTAL') or die;
 	</div>
 
     <?php $this->loadPartial('actions', array(
-        'new' => !$marker->getId(),
+        'new' => !$entity->getId(),
         'add' => 'Map:Admin:MapMarker@addAction',
         'edit' => 'Map:Admin:MapMarker@editAction',
         'save' => 'Map:Admin:MapMarker@saveAction',
-        'cancel' => array('Map:Admin:Map@editAction', $marker->getMapId())
+        'cancel' => array('Map:Admin:Map@editAction', $entity->getMapId())
     )); ?>
 
 </form>

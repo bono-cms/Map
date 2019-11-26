@@ -25,9 +25,10 @@ final class MapMarker extends AbstractController
      */
     private function createForm($marker, $title)
     {
-        $marker = is_array($marker) ? $marker[0] : $marker;
+        $entity = is_array($marker) ? $marker[0] : $marker;
 
-        $map = $this->getModuleService('mapService')->fetchById($marker->getMapId());
+        $mapId = $entity->getMapId();
+        $map = $this->getModuleService('mapService')->fetchById($mapId);
 
         if ($map !== false) {
             // Load view plugins
@@ -35,7 +36,7 @@ final class MapMarker extends AbstractController
 
             // Append breadcrumbs
             $this->view->getBreadcrumbBag()->addOne('Maps', $this->createUrl('Map:Admin:Map@indexAction'))
-                                           ->addOne($this->translator->translate('Edit the map "%s"', $map->getName()), $this->createUrl('Map:Admin:Map@editAction', array($marker->getMapId())))
+                                           ->addOne($this->translator->translate('Edit the map "%s"', $map->getName()), $this->createUrl('Map:Admin:Map@editAction', array($mapId)))
                                            ->addOne($title);
 
             return $this->view->render('marker/form', array(
