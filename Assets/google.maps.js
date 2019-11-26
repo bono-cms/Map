@@ -35,9 +35,14 @@
                         content: (current.description)
                     });
 
-                    marker.addListener('click', function() {
+                    // Show popup either on load or on click depending on configuration value
+                    if (current.popup == "0") {
+                        marker.addListener('click', function() {
+                            infowindow.open(map, marker);
+                        });
+                    } else {
                         infowindow.open(map, marker);
-                    });
+                    }
                 }
             }
         }
