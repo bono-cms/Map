@@ -1,46 +1,68 @@
 <?php
 
 use Krystal\Form\Element;
+use Cms\Service\LanguageManager;
 
 defined('KRYSTAL') or die;
 
 ?>
 
 <form class="card" data-group="marker" autocomplete="off">
-    <?= Element::hidden('marker[id]', $marker->getId()); ?>
-    <?= Element::hidden('marker[map_id]', $marker->getMapId()); ?>
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="nav-item active"><a class="nav-link" href="#marker" role="tab" data-toggle="tab"><i class="far fa-file"></i> <?php $this->show('Description'); ?></a></li>
+        <li role="presentation" class="nav-item"><a class="nav-link" href="#configuration" role="tab" data-toggle="tab"><i class="fas fa-map-marker-alt"></i> <?php $this->show('Marker'); ?></a></li>
+    </ul>
 
-    <div class="form-group">
-        <label class="col-lg-12"><?php $this->show('Latitude'); ?></label>
+    <div class="tab-content">
+		<div class="tab-pane fade in active" id="marker" role="tabpanel">
+            <?php $this->loadPartial('language-tabs'); ?>
 
-        <div class="col-lg-10">
-            <?= Element::text('marker[lat]', $marker->getLat(), array('class' => 'form-control')); ?>
+            <div class="tab-content">
+                <?php foreach ($languages as $index => $language): ?>
+                <?php $entity = LanguageManager::findByLangId($language->getId(), $marker); ?>
+
+                <div class="tab-pane fade in <?php echo $index == 0 ? 'active show' : null; ?>" id="<?php printf('language-%s', $language->getId()); ?>" role="tabpanel">
+                    <?php echo Element::hidden(sprintf('translation[%s][id]', $language->getId()), $entity->getId()); ?>
+                    <?php echo Element::hidden(sprintf('translation[%s][lang_id]', $language->getId()), $language->getId()); ?>
+
+                    <?php $this->loadPartial('language-name', array('language' => $language)); ?>
+
+                    <div class="form-group">
+                        <div class="col-lg-10">
+                            <?= Element::textarea(sprintf('translation[%s][description]', $language->getId()), $entity->getDescription(), array('data-wysiwyg' => 'true')); ?>
+                        </div>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+		</div>
+
+        <div role="tabpanel" class="tab-pane" id="configuration">
+            <?= Element::hidden('marker[id]', $entity->getId()); ?>
+            <?= Element::hidden('marker[map_id]', $entity->getMapId()); ?>
+
+            <div class="form-group">
+                <label class="col-lg-12"><?php $this->show('Latitude'); ?></label>
+                <div class="col-lg-10">
+                    <?= Element::text('marker[lat]', $entity->getLat(), array('class' => 'form-control')); ?>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-12"><?php $this->show('Longitude'); ?></label>
+                <div class="col-lg-10">
+                    <?= Element::text('marker[lng]', $entity->getLng(), array('class' => 'form-control')); ?>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-12"><?php $this->show('Draggable'); ?></label>
+                <div class="col-lg-10">
+                    <?= Element::checkbox('marker[draggable]', $entity->getDragable()); ?>
+                </div>
+            </div>
         </div>
-    </div>
-
-    <div class="form-group">
-        <label class="col-lg-12"><?php $this->show('Longitude'); ?></label>
-
-        <div class="col-lg-10">
-            <?= Element::text('marker[lng]', $marker->getLng(), array('class' => 'form-control')); ?>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="col-lg-12"><?php $this->show('Description'); ?></label>
-
-        <div class="col-lg-10">
-            <?= Element::textarea('marker[description]', $marker->getDescription(), array('data-wysiwyg' => 'true')); ?>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="col-lg-12"><?php $this->show('Draggable'); ?></label>
-
-        <div class="col-lg-10">
-            <?= Element::checkbox('marker[draggable]', $marker->getDragable()); ?>
-        </div>
-    </div>
+	</div>
 
     <?php $this->loadPartial('actions', array(
         'new' => !$marker->getId(),
