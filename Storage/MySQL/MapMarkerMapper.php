@@ -45,6 +45,7 @@ final class MapMarkerMapper extends AbstractMapper implements MapMarkerMapperInt
             self::column('lat'),
             self::column('lng'),
             self::column('draggable'),
+            self::column('popup'),
             MapMarkerTranslationMapper::column('lang_id'),
             MapMarkerTranslationMapper::column('description')
         );
