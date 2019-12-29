@@ -124,7 +124,24 @@ final class MapService extends AbstractManager
      */
     public function deleteById($id)
     {
-        return $this->mapMapper->deleteByPk($id);
+        return $this->mapMapper->deleteByPk($id) && $this->removeIcon($id);
+    }
+
+    /**
+     * Removed icon by map id
+     * 
+     * @param int $id Map id
+     * @return boolean
+     */
+    private function removeIcon($id)
+    {
+        $mapDir = $this->appConfig->getRootDir() . self::ICON_PATH . '/' . $id;
+
+        if (is_dir($mapDir)) {
+            return FileManager::rmdir($mapDir);
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -142,6 +159,8 @@ final class MapService extends AbstractManager
         $icon = isset($input['files']['map']['icon']) ? $input['files']['map']['icon'] : false;
         $id = is_numeric($data['id']) ? $data['id'] : $this->getLastId() + 1;
 
+        $this->removeIcon($id);
+        
         // If an icon is provided, then upload it
         if ($icon !== false) {
             // Target destination
