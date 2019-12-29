@@ -49,7 +49,8 @@ final class MapService extends AbstractManager
                ->setName($row['name'])
                ->setHeight($row['height'])
                ->setStyle($row['style'])
-               ->setLanguage($row['language']);
+               ->setLanguage($row['language'])
+               ->setIcon($row['icon']);
 
         if (isset($row['marker_count'])) {
             $entity->setMarkerCount($row['marker_count']);

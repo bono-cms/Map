@@ -8,7 +8,8 @@ CREATE TABLE `bono_module_map_maps` (
     `name` varchar(255) NOT NULL COMMENT 'Map name',
     `height` INT NOT NULL COMMENT 'Map height',
     `style` TEXT NOT NULL COMMENT 'Custom style JS-Array',
-    `language` varchar(10) NOT NULL COMMENT 'Map language'
+    `language` varchar(10) NOT NULL COMMENT 'Map language',
+    `icon` varchar(255) NOT NULL COMMENT 'Shared icon for all markers'
 );
 
 /* Markers */
