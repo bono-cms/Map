@@ -70,6 +70,18 @@ defined('KRYSTAL') or die;
                     </div>
                 </div>
 
+                <?php if (count($markers) > 0): ?>
+                <div class="form-group">
+                    <label class="col-lg-12"><?php $this->show('Shared icon for all markers'); ?></label>
+                    <div class="col-lg-10">
+                        <p><img class="img-fluid" src="<?= $map->getIcon(); ?>"></p>
+
+                        <?= Element::file('map[icon]'); ?>
+                        <?= Element::hidden('map[icon]', $map->getIcon(), array('class' => 'form-control')); ?>
+                    </div>
+                </div>
+                <?php endif; ?>
+
                 <div class="form-group">
                     <label class="col-lg-12"><?php $this->show('API Key'); ?></label>
                     <div class="col-lg-10">
