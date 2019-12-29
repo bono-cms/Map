@@ -23,7 +23,7 @@ final class Module extends AbstractCmsModule
      */
     public function getServiceProviders()
     {
-        $mapService = new MapService($this->getMapper('\Map\Storage\MySQL\MapMapper'));
+        $mapService = new MapService($this->getMapper('\Map\Storage\MySQL\MapMapper'), $this->getAppConfig());
         $mapMarkerService = new MapMarkerService($this->getMapper('\Map\Storage\MySQL\MapMarkerMapper'));
 
         return array(

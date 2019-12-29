@@ -166,21 +166,20 @@ final class Map extends AbstractController
     public function saveAction()
     {
         // Raw POST data
-        $input = $this->request->getPost('map');
+        $input = $this->request->getAll();
 
         $formValidator = $this->createValidator(array(
             'input' => array(
-                'source' => $input,
+                'source' => $input['data']['map'],
                 'definition' => $this->getRules()
             )
         ));
 
         if ($formValidator->isValid()) {
-
             $mapService = $this->getModuleService('mapService');
             $mapService->save($input);
 
-            if ($input['id']) {
+            if ($input['data']['map']['id']) {
                 $this->flashBag->set('success', 'The element has been updated successfully');
                 return 1;
             } else {
