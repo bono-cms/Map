@@ -21,7 +21,7 @@ Nothing extra to do. This module can be installed just like any other Bono modul
 
 ## Usage
 
-When you create a map, you can render it anywhere in templates provding its id. There's only one method you'll ever need - `renderMap($id)`.
+When you create a map, you can render it anywhere in templates providing its id. There's only one method you'll ever need - `renderMap($id)`.
 
 ### Example
 
