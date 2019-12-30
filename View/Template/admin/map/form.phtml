@@ -74,7 +74,11 @@ defined('KRYSTAL') or die;
                 <div class="form-group">
                     <label class="col-lg-12"><?php $this->show('Shared icon for all markers'); ?></label>
                     <div class="col-lg-10">
+
+                        <?php if ($map->getIcon()): ?>
                         <p><img class="img-fluid" src="<?= $map->getIcon(); ?>"></p>
+                        <p><?php $this->show('Remove this icon'); ?> <?= Element::checkbox('purge', false, array(), false); ?></p>
+                        <?php endif; ?>
 
                         <?= Element::file('map[icon]'); ?>
                         <?= Element::hidden('map[icon]', $map->getIcon(), array('class' => 'form-control')); ?>

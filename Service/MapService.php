@@ -157,10 +157,15 @@ final class MapService extends AbstractManager
 
         // Icon file. Check whether uploaded
         $icon = isset($input['files']['map']['icon']) ? $input['files']['map']['icon'] : false;
+        $removeIcon = isset($input['data']['purge']);
         $id = is_numeric($data['id']) ? $data['id'] : $this->getLastId() + 1;
 
-        $this->removeIcon($id);
-        
+        // If removing icon is required
+        if ($removeIcon) {
+            $data['icon'] = '';
+            $this->removeIcon($id);
+        }
+
         // If an icon is provided, then upload it
         if ($icon !== false) {
             // Target destination
