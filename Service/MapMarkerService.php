@@ -57,6 +57,28 @@ final class MapMarkerService extends AbstractManager
     }
 
     /**
+     * Creates markers based on a map
+     * 
+     * @param \Krystal\Stdlib\VirtualEntity $map
+     * @return array
+     */
+    private function createMarkers(VirtualEntity $map)
+    {
+        // Fetch all attached markers
+        $markers = $this->fetchAll($map->getId(), false);
+
+        foreach ($markers as &$marker) {
+            // In case we have a global icon and current marker hasn't one
+            if ($map->getIcon() && empty($marker['icon'])) {
+                // Then override an icon of current marker
+                $marker['icon'] = $map->getIcon();
+            }
+        }
+
+        return $markers;
+    }
+
+    /**
      * Creates shared map configuration
      * 
      * @param \Krystal\Stdlib\VirtualEntity $map
@@ -74,7 +96,7 @@ final class MapMarkerService extends AbstractManager
             'height' => $map->getHeight(),
             'style' => $map->getStyle(),
             'language' => $map->getLanguage(),
-            'markers' => $this->fetchAll($map->getId(), false)
+            'markers' => $this->createMarkers($map)
         );
     }
 
