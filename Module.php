@@ -23,11 +23,17 @@ final class Module extends AbstractCmsModule
      */
     public function getServiceProviders()
     {
+        // Grab current language code
+        $code = $this->getModuleManager()->getModule('Cms')
+                                         ->getService('languageManager')
+                                         ->fetchByCurrentId()
+                                         ->getCode();
+
         $mapService = new MapService($this->getMapper('\Map\Storage\MySQL\MapMapper'), $this->getAppConfig());
         $mapMarkerService = new MapMarkerService($this->getMapper('\Map\Storage\MySQL\MapMarkerMapper'));
 
         return array(
-            'siteService' => new SiteService($mapService, $mapMarkerService),
+            'siteService' => new SiteService($mapService, $mapMarkerService, $code),
             'mapService' => $mapService,
             'mapMarkerService' => $mapMarkerService
         );

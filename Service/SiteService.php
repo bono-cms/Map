@@ -37,16 +37,25 @@ final class SiteService
     private $mapMarkerService;
 
     /**
+     * Current language code
+     * 
+     * @var string
+     */
+    private $code;
+
+    /**
      * State initialization
      * 
      * @param \Map\Service\MapService $mapService
      * @param \Map\Service\MapMarkerService $mapMarkerService
+     * @param string $code Current language code
      * @return void
      */
-    public function __construct(MapService $mapService, MapMarkerService $mapMarkerService)
+    public function __construct(MapService $mapService, MapMarkerService $mapMarkerService, $code)
     {
         $this->mapService = $mapService;
         $this->mapMarkerService = $mapMarkerService;
+        $this->code = $code;
     }
 
     /**
@@ -74,7 +83,7 @@ final class SiteService
         // Make sure right map ID supplied
         if ($map !== false) {
             return $this->view->renderRaw('Map', 'admin', 'map/view', array(
-                'config' => $this->mapMarkerService->createConfiguration($map)
+                'config' => $this->mapMarkerService->createConfiguration($map, $this->code)
             ));
 
         } else {

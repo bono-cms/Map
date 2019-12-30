@@ -30,12 +30,15 @@ final class Map extends AbstractController
 
         // Make sure right supplied
         if ($map !== false) {
+            // Grab current language code
+            $code = $this->getService('Cms', 'languageManager')->fetchByCurrentId()->getCode();
+
             // Append breadcrumbs
             $this->view->getBreadcrumbBag()->addOne('Maps', 'Map:Admin:Map@indexAction')
                                            ->addOne($this->translator->translate('Viewing the "%s" map', $map->getName()));
 
             return $this->view->render('map/view', array(
-                'config' => $this->getModuleService('mapMarkerService')->createConfiguration($map)
+                'config' => $this->getModuleService('mapMarkerService')->createConfiguration($map, $code)
             ));
 
         } else {

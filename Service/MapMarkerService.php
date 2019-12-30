@@ -82,10 +82,15 @@ final class MapMarkerService extends AbstractManager
      * Creates shared map configuration
      * 
      * @param \Krystal\Stdlib\VirtualEntity $map
+     * @param string $code Current language code
      * @return array
      */
-    public function createConfiguration(VirtualEntity $map)
+    public function createConfiguration(VirtualEntity $map, $code)
     {
+        if (!$map->getLanguage()) {
+            $map->setLanguage($code);
+        }
+
         // Required parameters for rendering
         return array(
             'key' => $map->getApiKey(),

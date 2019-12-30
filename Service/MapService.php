@@ -57,7 +57,7 @@ final class MapService extends AbstractManager
      */
     protected function toEntity(array $row)
     {
-        $entity = new VirtualEntity();
+        $entity = new VirtualEntity(false);
         $entity->setId($row['id'])
                ->setLat($row['lat'])
                ->setLng($row['lng'])
