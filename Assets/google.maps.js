@@ -18,33 +18,35 @@
             // Draw markers if available
             if (config.markers.length) {
                 for (i = 0; i < config.markers.length; i++) {
-                    // Current marker
-                    var current = config.markers[i];
+                    (function(i){
+                        // Current marker
+                        var current = config.markers[i];
 
-                    var marker = new google.maps.Marker({
-                        draggable: current.draggable == 1,
-                        position: {
-                            lat: parseFloat(current.lat),
-                            lng: parseFloat(current.lng)
-                        }, 
-                        map: map,
-                        icon : current.icon !== '' ? current.icon : null
-                    });
-
-                    // If description provided, then attach InfoWindow
-                    if (current.description) {
-                        var infowindow = new google.maps.InfoWindow({
-                            content: (current.description)
+                        var marker = new google.maps.Marker({
+                            draggable: current.draggable == 1,
+                            position: {
+                                lat: parseFloat(current.lat),
+                                lng: parseFloat(current.lng)
+                            }, 
+                            map: map,
+                            icon : current.icon !== '' ? current.icon : null
                         });
 
-                        marker.addListener('click', function() {
-                            infowindow.open(map, marker);
-                        });
+                        // If description provided, then attach InfoWindow
+                        if (current.description) {
+                            var infowindow = new google.maps.InfoWindow({
+                                content: (current.description)
+                            });
 
-                        if (current.popup == "1") {
-                            infowindow.open(map, marker);
+                            marker.addListener('click', function() {
+                                infowindow.open(map, marker);
+                            });
+
+                            if (current.popup == "1") {
+                                infowindow.open(map, marker);
+                            }
                         }
-                    }
+                    })(i);
                 }
             }
         }
