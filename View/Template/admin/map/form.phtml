@@ -102,8 +102,7 @@ defined('KRYSTAL') or die;
                         <p><?php $this->show('Remove this icon'); ?> <?= Element::checkbox('purge', false, array(), false); ?></p>
                         <?php endif; ?>
 
-                        <?= Element::file('map[icon]'); ?>
-                        <?= Element::hidden('map[icon]', $map->getIcon(), array('class' => 'form-control')); ?>
+                        <?= Element::fileData('map[icon]', $map->getIcon(), 'image/png', array('class' => 'form-control')); ?>
                     </div>
                 </div>
                 <?php endif; ?>
