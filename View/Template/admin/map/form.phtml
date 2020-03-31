@@ -9,36 +9,33 @@ defined('KRYSTAL') or die;
 ?>
 
 <div class="card">
-    <!-- Nav tabs -->
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#map"><i class="fas fa-map"></i> <?php $this->show('Map'); ?></a>
-        </li>
+    <form data-group="map" autocomplete="off">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#map"><i class="fas fa-map"></i> <?php $this->show('Map'); ?></a>
+            </li>
 
-        <?php if ($markers !== false): ?>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#markers"><i class="fas fa-map-marker-alt"></i> <?php $this->show('Markers'); ?> <span class="text-muted">(<?= count($markers); ?>)</span></a>
-        </li>
-        <?php endif; ?>
-    </ul>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#map-design"><i class="fas fa-paint-brush"></i> <?php $this->show('Appearance'); ?></a>
+            </li>
 
-    <!-- Tab panes -->
-    <div class="tab-content">
-        <div class="tab-pane active" id="map">
-            <form data-group="map" autocomplete="off">
+            <?php if ($markers !== false): ?>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#markers"><i class="fas fa-map-marker-alt"></i> <?php $this->show('Markers'); ?> <span class="text-muted">(<?= count($markers); ?>)</span></a>
+            </li>
+            <?php endif; ?>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div class="tab-pane active" id="map">
                 <?= Element::hidden('map[id]', $map->getId()); ?>
 
                 <div class="form-group">
                     <label class="col-lg-12"><?php $this->show('Map name'); ?></label>
                     <div class="col-lg-10">
                         <?= Element::text('map[name]', $map->getName(), array('class' => 'form-control', 'placeholder' => $this->translate('Map name should cover its intentions'))); ?>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-lg-12"><?php $this->show('Height'); ?> (px)</label>
-                    <div class="col-lg-10">
-                        <?= Element::number('map[height]', $map->getHeight(), array('class' => 'form-control', 'placeholder' => $this->translate('Define map height in pixels'))); ?>
                     </div>
                 </div>
 
@@ -57,16 +54,41 @@ defined('KRYSTAL') or die;
                 </div>
 
                 <div class="form-group">
-                    <label class="col-lg-12"><?php $this->show('Zoom'); ?></label>
+                    <label class="col-lg-12"><?php $this->show('Language'); ?></label>
                     <div class="col-lg-10">
-                        <?= Element::text('map[zoom]', $map->getZoom(), array('class' => 'form-control')); ?>
+                        <?= Element::select('map[language]', $mapLanguages, $map->getLanguage(), array('class' => 'form-control'), null); ?>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-lg-12"><?php $this->show('Language'); ?></label>
+                    <label class="col-lg-12"><?php $this->show('API Key'); ?></label>
                     <div class="col-lg-10">
-                        <?= Element::select('map[language]', $mapLanguages, $map->getLanguage(), array('class' => 'form-control'), null); ?>
+                        <?= Element::text('map[api_key]', $map->getApiKey(), array('class' => 'form-control')); ?>
+                    </div>
+                </div>
+
+                <?php $this->loadPartial('actions', array(
+                    'new' => !$map->getId(),
+                    'add' => 'Map:Admin:Map@addAction',
+                    'edit' => 'Map:Admin:Map@editAction',
+                    'save' => 'Map:Admin:Map@saveAction',
+                    'cancel' => 'Map:Admin:Map@indexAction'
+                )); ?>
+
+            </div>
+
+            <div class="tab-pane" id="map-design">
+                <div class="form-group">
+                    <label class="col-lg-12"><?php $this->show('Height'); ?> (px)</label>
+                    <div class="col-lg-10">
+                        <?= Element::number('map[height]', $map->getHeight(), array('class' => 'form-control', 'placeholder' => $this->translate('Define map height in pixels'))); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-12"><?php $this->show('Zoom'); ?></label>
+                    <div class="col-lg-10">
+                        <?= Element::text('map[zoom]', $map->getZoom(), array('class' => 'form-control')); ?>
                     </div>
                 </div>
 
@@ -85,82 +107,67 @@ defined('KRYSTAL') or die;
                     </div>
                 </div>
                 <?php endif; ?>
-
-                <div class="form-group">
-                    <label class="col-lg-12"><?php $this->show('API Key'); ?></label>
-                    <div class="col-lg-10">
-                        <?= Element::text('map[api_key]', $map->getApiKey(), array('class' => 'form-control')); ?>
-                    </div>
-                </div>
-
+                
                 <div class="form-group">
                     <label class="col-lg-12"><?php $this->show('Custom style'); ?></label>
                     <div class="col-lg-10">
                         <?= Element::textarea('map[style]', $map->getStyle(), array('rows' => 8, 'class' => 'form-control', 'placeholder' => $this->translate('Insert custom style JavaScript array'))); ?>
                     </div>
                 </div>
+            </div>
 
-                <?php $this->loadPartial('actions', array(
-                    'new' => !$map->getId(),
-                    'add' => 'Map:Admin:Map@addAction',
-                    'edit' => 'Map:Admin:Map@editAction',
-                    'save' => 'Map:Admin:Map@saveAction',
-                    'cancel' => 'Map:Admin:Map@indexAction'
-                )); ?>
+            <?php if ($markers !== false): ?>
+            <div class="tab-pane fade" id="markers">
+                <p>
+                    <a class="btn btn-primary" href="<?= $this->url('Map:Admin:MapMarker@addAction', $map->getId()); ?>"><i class="fas fa-map-marker-alt"></i> <?php $this->show('Add new marker'); ?></a>
+                </p>
 
-            </form>
-        </div>
+                <?= $this->widget(new GridViewWidget($markers, array(
+                    'tableClass' => 'table table-hover table-bordered table-striped',
+                    'columns' => array(
+                        array(
+                            'column' => 'id',
+                            'label' => '#'
+                        ),
 
-        <?php if ($markers !== false): ?>
-        <div class="tab-pane fade" id="markers">
-            <p>
-                <a class="btn btn-primary" href="<?= $this->url('Map:Admin:MapMarker@addAction', $map->getId()); ?>"><i class="fas fa-map-marker-alt"></i> <?php $this->show('Add new marker'); ?></a>
-            </p>
+                        array(
+                            'column' => 'lat',
+                            'label' => 'Latitude'
+                        ),
 
-            <?= $this->widget(new GridViewWidget($markers, array(
-                'tableClass' => 'table table-hover table-bordered table-striped',
-                'columns' => array(
-                    array(
-                        'column' => 'id',
-                        'label' => '#'
+                        array(
+                            'column' => 'lng',
+                            'label' => 'Longitude'
+                        ),
+
+                        array(
+                            'column' => 'draggable',
+                            'translateable' => true,
+                            'value' => function($row){
+                                return $row['draggable'] ? 'Yes' : 'No';
+                            }
+                        )
                     ),
 
-                    array(
-                        'column' => 'lat',
-                        'label' => 'Latitude'
-                    ),
+                    'actions' => array(
+                        'edit' => function($row){
+                            return Icon::edit(
+                                $this->url('Map:Admin:MapMarker@editAction', $row['id']),
+                                $this->translate('Edit this marker')
+                            );
+                        },
 
-                    array(
-                        'column' => 'lng',
-                        'label' => 'Longitude'
-                    ),
-
-                    array(
-                        'column' => 'draggable',
-                        'translateable' => true,
-                        'value' => function($row){
-                            return $row['draggable'] ? 'Yes' : 'No';
+                        'remove' => function($row){
+                            return Icon::remove(
+                                $this->url('Map:Admin:MapMarker@deleteAction', $row['id']), 
+                                $this->translate('Remove this marker')
+                            );
                         }
                     )
-                ),
-
-                'actions' => array(
-                    'edit' => function($row){
-                        return Icon::edit(
-                            $this->url('Map:Admin:MapMarker@editAction', $row['id']),
-                            $this->translate('Edit this marker')
-                        );
-                    },
-
-                    'remove' => function($row){
-                        return Icon::remove(
-                            $this->url('Map:Admin:MapMarker@deleteAction', $row['id']), 
-                            $this->translate('Remove this marker')
-                        );
-                    }
-                )
-            ))); ?>
+                ))); ?>
+            </div>
+            <?php endif; ?>
         </div>
-        <?php endif; ?>
-    </div>
+    
+    </form>
 </div>
