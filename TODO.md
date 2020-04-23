@@ -1,5 +1,6 @@
 TODO
 ====
 
-* Region - optional parameter in URL
-* Google Map Marker - Ability to upload icons instead of defining path
+ * Ability to inherit `lat` and `lng` from a parent map
+ * Region - optional parameter in URL
+ * Google Map Marker - Ability to upload icons instead of defining path
