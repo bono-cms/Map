@@ -14,6 +14,14 @@ namespace Map\Storage;
 interface MapMarkerMapperInterface
 {
     /**
+     * Inherit latitude and longitude from a parent map
+     * 
+     * @param int $id Marker id
+     * @return boolean Depending on success
+     */
+    public function inheritCoordinates($id);
+
+    /**
      * Fetches map marker by its id
      * 
      * @param int $id Marker id
