@@ -18,6 +18,23 @@ use Cms\Controller\Admin\AbstractController;
 final class MapMarker extends AbstractController
 {
     /**
+     * Inherit marker coordinates from a parent map
+     * 
+     * @param int $id Marker id
+     * @return boolean
+     */
+    public function inheritAction($id)
+    {
+        if ($this->getModuleService('mapMarkerService')->inheritCoordinates($id)) {
+            $this->flashBag->set('success', 'Coordinates of selected marker have been inherited successfully!');
+        } else {
+            $this->flashBag->set('success', 'An error occurred during inheritance');
+        }
+
+        return $this->response->back();
+    }
+
+    /**
      * Create shared form
      * 
      * @param \Krystal\Stdlib\VirtualEntity|array $marker

@@ -149,6 +149,14 @@ defined('KRYSTAL') or die;
                     ),
 
                     'actions' => array(
+                        'inherit' => function($row){
+                            return Icon::button(
+                                'fas fa-object-ungroup',
+                                $this->url('Map:Admin:MapMarker@inheritAction', $row['id']),
+                                $this->translate('Inherit coordinates from a parent map')
+                            );
+                        },
+
                         'edit' => function($row){
                             return Icon::edit(
                                 $this->url('Map:Admin:MapMarker@editAction', $row['id']),

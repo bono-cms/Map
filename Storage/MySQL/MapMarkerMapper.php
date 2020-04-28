@@ -53,6 +53,28 @@ final class MapMarkerMapper extends AbstractMapper implements MapMarkerMapperInt
     }
 
     /**
+     * Inherit latitude and longitude from a parent map
+     * 
+     * @param int $id Marker id
+     * @return boolean Depending on success
+     */
+    public function inheritCoordinates($id)
+    {
+        $db = $this->db->update(self::getTableName())
+                       // Map relation
+                       ->innerJoin(MapMapper::getTableName(), array(
+                            MapMapper::column('id') => self::getRawColumn('map_id')
+                       ))
+                       ->set(array(
+                            self::column('lat') => MapMapper::getRawColumn('lat'),
+                            self::column('lng') => MapMapper::getRawColumn('lng')
+                       ))
+                       ->whereEquals(self::column('id'), $id);
+
+        return (bool) $db->execute(true);
+    }
+
+    /**
      * Fetches map marker by its id
      * 
      * @param int $id Marker id

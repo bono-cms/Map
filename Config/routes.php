@@ -26,6 +26,10 @@ return array(
     ),
     
     // Marker
+    '/%s/module/map-marker/inherit/(:var)' => array(
+        'controller' => 'Admin:MapMarker@inheritAction'
+    ),
+
     '/%s/module/map-marker/add/(:var)' => array(
         'controller' => 'Admin:MapMarker@addAction'
     ),

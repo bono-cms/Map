@@ -161,6 +161,17 @@ final class MapMarkerService extends AbstractManager
     }
 
     /**
+     * Inherit latitude and longitude from a parent map
+     * 
+     * @param int $id Marker id
+     * @return boolean Depending on success
+     */
+    public function inheritCoordinates($id)
+    {
+        return $this->mapMarkerMapper->inheritCoordinates($id);
+    }
+
+    /**
      * Saves a marker
      * 
      * @param array $input Raw input data
