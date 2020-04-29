@@ -11,6 +11,7 @@ Before you get started, please [obtain your API](https://developers.google.com/m
 - Basic configuration (height, lat, lng, zoom, language)
 - Custom styling support
 - Markers. Just provide their latitude and longitude
+- Marker clustering. Group large number of markers into a group that gets zoomed on click
 - Coordinate inheritance. Map markers can inherit coordinates from a parent map
 - Shared map icons. Just define one icon only once which then to be rendered in all markers!
 - Optional information window for markers
