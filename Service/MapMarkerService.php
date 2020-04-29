@@ -93,6 +93,7 @@ final class MapMarkerService extends AbstractManager
 
         // Required parameters for rendering
         return array(
+            'clustering' => $map->getClustering(),
             'key' => $map->getApiKey(),
             'id' => sprintf('map-%s', $map->getId()),
             'lat' => $map->getLat(),

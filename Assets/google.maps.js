@@ -17,8 +17,11 @@
 
             // Draw markers if available
             if (config.markers.length) {
+                // Instances of google.maps.Marker
+                var clustering = [];
+
                 for (i = 0; i < config.markers.length; i++) {
-                    (function(i){
+                    (function(i, clustering){
                         // Current marker
                         var current = config.markers[i];
 
@@ -46,7 +49,19 @@
                                 infowindow.open(map, marker);
                             }
                         }
-                    })(i);
+
+                        // Do we require clustering? If so, then push it for latter usage
+                        if (config.clustering) {
+                            clustering.push(marker);
+                        }
+
+                    })(i, clustering);
+                }
+
+                if (config.clustering) {
+                    var markerCluster = new MarkerClusterer(map, clustering, {
+                        imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+                    });
                 }
             }
         }

@@ -9,7 +9,8 @@ CREATE TABLE `bono_module_map_maps` (
     `height` INT NOT NULL COMMENT 'Map height',
     `style` TEXT NOT NULL COMMENT 'Custom style JS-Array',
     `language` varchar(10) NOT NULL COMMENT 'Map language',
-    `icon` varchar(255) NOT NULL COMMENT 'Shared icon for all markers'
+    `icon` varchar(255) NOT NULL COMMENT 'Shared icon for all markers',
+    `clustering` BOOLEAN DEFAULT 0 COMMENT 'Whether use clustering for markers'
 );
 
 /* Markers */
