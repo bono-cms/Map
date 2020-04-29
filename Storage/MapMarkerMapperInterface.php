@@ -14,6 +14,14 @@ namespace Map\Storage;
 interface MapMarkerMapperInterface
 {
     /**
+     * Count markers by map id
+     * 
+     * @param int $mapId
+     * @return int
+     */
+    public function countMarkers($mapId);
+
+    /**
      * Inherit latitude and longitude from a parent map
      * 
      * @param int $id Marker id

@@ -53,6 +53,22 @@ final class MapMarkerMapper extends AbstractMapper implements MapMarkerMapperInt
     }
 
     /**
+     * Count markers by map id
+     * 
+     * @param int $mapId
+     * @return int
+     */
+    public function countMarkers($mapId)
+    {
+        $db = $this->db->select()
+                       ->count($this->getPk())
+                       ->from(self::getTableName())
+                       ->whereEquals('map_id', $mapId);
+
+        return (int) $db->queryScalar();
+    }
+
+    /**
      * Inherit latitude and longitude from a parent map
      * 
      * @param int $id Marker id
