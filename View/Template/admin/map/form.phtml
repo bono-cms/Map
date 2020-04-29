@@ -153,6 +153,15 @@ defined('KRYSTAL') or die;
                             'value' => function($row){
                                 return $row['draggable'] ? 'Yes' : 'No';
                             }
+                        ),
+
+                        array(
+                            'column' => 'popup',
+                            'label' => 'Automatically popup',
+                            'translateable' => true,
+                            'value' => function($row){
+                                return $row['popup'] ? 'Yes' : 'No';
+                            }
                         )
                     ),
 
