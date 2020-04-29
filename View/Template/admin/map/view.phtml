@@ -3,10 +3,15 @@
 use Krystal\Security\Filter;
 use Map\Service\MapService;
 
+// Do this map require clustering library?
+if ($config['clustering'] == true) {
+    $this->getPluginBag()->appendScript('https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js');
+}
+
 // Append required scripts to run maps
 $this->getPluginBag()->appendScripts(array(
     MapService::createServiceUrl($config['key'], $config['language']),
-    '@Map/google.maps.js'
+    '@Map/google.maps.js?'.time()
 ));
 
 ?>
