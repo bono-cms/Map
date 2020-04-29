@@ -24,6 +24,7 @@
                     (function(i, clustering){
                         // Current marker
                         var current = config.markers[i];
+                        var hasAnimation = current.animation == '1';
 
                         var marker = new google.maps.Marker({
                             draggable: current.draggable == 1,
@@ -32,23 +33,44 @@
                                 lng: parseFloat(current.lng)
                             }, 
                             map: map,
-                            icon : current.icon !== '' ? current.icon : null
+                            icon : current.icon !== '' ? current.icon : null,
+                            animation : hasAnimation ? google.maps.Animation.DROP : null
                         });
 
                         // If description provided, then attach InfoWindow
                         if (current.description) {
-                            var infowindow = new google.maps.InfoWindow({
+                            var infoWindow = new google.maps.InfoWindow({
                                 content: (current.description)
                             });
 
-                            marker.addListener('click', function() {
-                                infowindow.open(map, marker);
+                            // Listen for close
+                            infoWindow.addListener('closeclick', function(){
+                                // Stop animation on infoWindow close
+                                if (hasAnimation) {
+                                    marker.setAnimation(null);
+                                }
                             });
 
                             if (current.popup == "1") {
-                                infowindow.open(map, marker);
+                                infoWindow.open(map, marker);
                             }
                         }
+
+                        // Add click listener
+                        marker.addListener('click', function(){
+                            if (hasAnimation) {
+                                if (marker.getAnimation() !== null) {
+                                    marker.setAnimation(null);
+                                } else {
+                                    marker.setAnimation(google.maps.Animation.BOUNCE);
+                                }
+                            }
+
+                            // If we have infoWindow, then show it
+                            if (typeof infoWindow !== 'undefined') {
+                                infoWindow.open(map, marker);
+                            }
+                        });
 
                         // Do we require clustering? If so, then push it for latter usage
                         if (config.clustering) {
