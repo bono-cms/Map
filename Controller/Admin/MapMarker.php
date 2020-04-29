@@ -76,6 +76,14 @@ final class MapMarker extends AbstractController
         $marker = new VirtualEntity();
         $marker->setMapId($mapId);
 
+        // If this is the first marker, then inherit its coordinates from the parent map
+        if (!$this->getModuleService('mapMarkerService')->hasMarkers($mapId)) {
+            $map = $this->getModuleService('mapService')->fetchById($mapId);
+
+            $marker->setLat($map->getLat())
+                   ->setLng($map->getLng());
+        }
+
         return $this->createForm($marker, 'Add new marker');
     }
 
