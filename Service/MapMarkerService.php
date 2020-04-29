@@ -161,6 +161,17 @@ final class MapMarkerService extends AbstractManager
     }
 
     /**
+     * Count markers by map id
+     * 
+     * @param int $mapId
+     * @return int
+     */
+    public function hasMarkers($mapId)
+    {
+        return $this->mapMarkerMapper->countMarkers($mapId) > 0;
+    }
+
+    /**
      * Inherit latitude and longitude from a parent map
      * 
      * @param int $id Marker id
