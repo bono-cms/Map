@@ -10,7 +10,8 @@ CREATE TABLE `bono_module_map_maps` (
     `style` TEXT NOT NULL COMMENT 'Custom style JS-Array',
     `language` varchar(10) NOT NULL COMMENT 'Map language',
     `icon` varchar(255) NOT NULL COMMENT 'Shared icon for all markers',
-    `clustering` BOOLEAN DEFAULT 0 COMMENT 'Whether use clustering for markers'
+    `clustering` BOOLEAN DEFAULT 0 COMMENT 'Whether use clustering for markers',
+    `type` varchar(30) NOT NULL COMMENT 'Map type'
 );
 
 /* Markers */

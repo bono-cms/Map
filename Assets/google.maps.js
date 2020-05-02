@@ -8,6 +8,7 @@
             var map = new google.maps.Map(document.getElementById(config.id), {
                 scrollwheel: false, 
                 zoom: parseInt(config.zoom), 
+                mapTypeId: config.type ? config.type : 'roadmap',
                 center: {
                     lat: parseFloat(config.lat),
                     lng: parseFloat(config.lng)
