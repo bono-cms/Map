@@ -15,6 +15,7 @@ use Krystal\Validate\Pattern;
 use Krystal\Stdlib\VirtualEntity;
 use Cms\Controller\Admin\AbstractController;
 use Map\Collection\LanguageCollection;
+use Map\Collection\MapTypeCollection;
 
 final class Map extends AbstractController
 {
@@ -60,11 +61,13 @@ final class Map extends AbstractController
                                        ->addOne($title);
 
         $langCol = new LanguageCollection();
+        $typeCol = new MapTypeCollection();
 
         return $this->view->render('map/form', array(
             'map' => $map,
             'markers' => $map->getId() ? $this->getModuleService('mapMarkerService')->fetchAll($map->getId()) : false,
-            'mapLanguages' => $langCol->getAll()
+            'mapLanguages' => $langCol->getAll(),
+            'mapTypes' => $typeCol->getAll()
         ));
     }
 
