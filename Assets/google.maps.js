@@ -9,6 +9,7 @@
                 scrollwheel: false, 
                 zoom: parseInt(config.zoom), 
                 mapTypeId: config.type ? config.type : 'roadmap',
+                gestureHandling: config.gesture,
                 center: {
                     lat: parseFloat(config.lat),
                     lng: parseFloat(config.lng)

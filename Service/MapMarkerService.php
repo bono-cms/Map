@@ -94,6 +94,7 @@ final class MapMarkerService extends AbstractManager
 
         // Required parameters for rendering
         return array(
+            'gesture' => $map->getGesture(),
             'clustering' => $map->getClustering(),
             'type' => $map->getType(),
             'key' => $map->getApiKey(),
