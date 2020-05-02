@@ -8,7 +8,7 @@ Before you get started, please [obtain your API](https://developers.google.com/m
 ## Features
 
 - Google Maps
-- Basic configuration (height, lat, lng, zoom, language, type)
+- Basic configuration (height, lat, lng, zoom, language, type, gesture)
 - Custom styling support
 - Markers. Just provide their latitude and longitude
 - Marker clustering. Group large number of markers into a group that gets zoomed on click
