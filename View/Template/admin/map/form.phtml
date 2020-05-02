@@ -48,9 +48,10 @@ defined('KRYSTAL') or die;
             </div>
 
             <div class="tab-pane" id="map-design">
-                <?= $this->field('Height')->number('map[height]', $map->getHeight(), array('class' => 'form-control', 'placeholder' => $this->translate('Define map height in pixels'))); ?>
-                <?= $this->field('Map type')->select('map[type]', $this->translateArray($mapTypes), $map->getType(), array('class' => 'form-control')); ?>
+                <?= $this->field('Height (px)')->number('map[height]', $map->getHeight(), array('class' => 'form-control', 'placeholder' => $this->translate('Define map height in pixels'))); ?>
                 <?= $this->field('Zoom')->text('map[zoom]', $map->getZoom(), array('class' => 'form-control')); ?>
+                <?= $this->field('Map type')->select('map[type]', $this->translateArray($mapTypes), $map->getType(), array('class' => 'form-control')); ?>
+                <?= $this->field('Gesture handling')->select('map[gesture]', $this->translateArray($mapGestures), $map->getGesture(), array('class' => 'form-control')); ?>
 
                 <?php if ($markers): ?>
                 <div class="form-group">

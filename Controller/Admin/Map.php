@@ -16,6 +16,7 @@ use Krystal\Stdlib\VirtualEntity;
 use Cms\Controller\Admin\AbstractController;
 use Map\Collection\LanguageCollection;
 use Map\Collection\MapTypeCollection;
+use Map\Collection\GestureCollection;
 
 final class Map extends AbstractController
 {
@@ -62,12 +63,14 @@ final class Map extends AbstractController
 
         $langCol = new LanguageCollection();
         $typeCol = new MapTypeCollection();
+        $gstCol = new GestureCollection();
 
         return $this->view->render('map/form', array(
             'map' => $map,
             'markers' => $map->getId() ? $this->getModuleService('mapMarkerService')->fetchAll($map->getId()) : false,
             'mapLanguages' => $langCol->getAll(),
-            'mapTypes' => $typeCol->getAll()
+            'mapTypes' => $typeCol->getAll(),
+            'mapGestures' => $gstCol->getAll()
         ));
     }
 
