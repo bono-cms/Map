@@ -19,9 +19,9 @@ final class GestureCollection extends ArrayCollection
      * {@inheritDoc}
      */
     protected $collection = array(
+        'auto' => 'Auto',
         'greedy' => 'Always pan',
         'cooperative' => 'Cooperative',
-        'none' => 'None',
-        'auto' => 'Auto'
+        'none' => 'None'
     );
 }
