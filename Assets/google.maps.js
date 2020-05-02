@@ -1,4 +1,7 @@
-(function(document, JSON, google){
+(function(document, console, JSON, google){
+    // Inform about current API Version
+    console.log('Google Maps API Version: ' + google.maps.version);
+
     // Renders a map on given HTML element
     var renderMap = function(element){
         if (element.value){
@@ -99,4 +102,4 @@
         renderMap(map);
     }
 
-})(document, JSON, google);
+})(document, console, JSON, google);
