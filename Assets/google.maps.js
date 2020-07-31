@@ -9,7 +9,6 @@
             var config = JSON.parse(element.value);
 
             var map = new google.maps.Map(document.getElementById(config.id), {
-                scrollwheel: false, 
                 zoom: parseInt(config.zoom), 
                 mapTypeId: config.type ? config.type : 'roadmap',
                 gestureHandling: config.gesture,
