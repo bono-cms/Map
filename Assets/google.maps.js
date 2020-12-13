@@ -84,7 +84,7 @@
                     })(i, clustering);
                 }
 
-                if (config.clustering) {
+                if (config.clustering && typeof(MarkerClusterer) !== 'undefined') {
                     var markerCluster = new MarkerClusterer(map, clustering, {
                         imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
                     });
