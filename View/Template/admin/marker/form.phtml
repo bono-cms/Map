@@ -43,6 +43,7 @@ defined('KRYSTAL') or die;
             <?= $this->field('Enable animation')->checkbox('marker[animation]', $entity->getAnimation()); ?>
             <?= $this->field('Automatically popup')->checkbox('marker[popup]', $entity->getPopup()); ?>
             <?= $this->field('Draggable')->checkbox('marker[draggable]', $entity->getDragable()); ?>
+            <?= $this->field('Order')->number('marker[order]', $entity->getOrder(), array('class' => 'form-control', 'min' => 0)); ?>
         </div>
 	</div>
 

@@ -52,7 +52,8 @@ final class MapMarkerService extends AbstractManager
                ->setDraggable($row['draggable'], VirtualEntity::FILTER_BOOL)
                ->setIcon($row['icon'])
                ->setAnimation($row['animation'])
-               ->setDescription($row['description']);
+               ->setDescription($row['description'])
+               ->setOrder($row['order']);
 
         return $entity;
     }
