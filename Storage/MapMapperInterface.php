@@ -14,6 +14,13 @@ namespace Map\Storage;
 interface MapMapperInterface
 {
     /**
+     * Fetch map names and their corresponding id
+     * 
+     * @return array
+     */
+    public function fetchList();
+
+    /**
      * Fetch all maps
      * 
      * @return array

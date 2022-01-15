@@ -17,6 +17,7 @@ use Cms\Service\AbstractManager;
 use Krystal\Application\AppConfigInterface;
 use Krystal\Http\FileTransfer\FileUploader;
 use Krystal\Stdlib\VirtualEntity;
+use Krystal\Stdlib\ArrayUtils;
 use Krystal\Filesystem\FileManager;
 use Map\Module;
 
@@ -114,6 +115,16 @@ final class MapService extends AbstractManager
     public function fetchById($id)
     {
         return $this->prepareResult($this->mapMapper->findByPk($id));
+    }
+
+    /**
+     * Fetch map names and their corresponding id
+     * 
+     * @return array
+     */
+    public function fetchList()
+    {
+        return ArrayUtils::arrayList($this->mapMapper->fetchList(), 'id', 'name');
     }
 
     /**

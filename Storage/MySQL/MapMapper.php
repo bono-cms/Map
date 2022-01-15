@@ -25,6 +25,21 @@ final class MapMapper extends AbstractMapper implements MapMapperInterface
     }
 
     /**
+     * Fetch map names and their corresponding id
+     * 
+     * @return array
+     */
+    public function fetchList()
+    {
+        $db = $this->db->select(array('id', 'name'))
+                       ->from(self::getTableName())
+                       ->orderBy('id')
+                       ->desc();
+
+        return $db->queryAll();
+    }
+
+    /**
      * Fetch all maps
      * 
      * @return array
