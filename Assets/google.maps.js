@@ -21,6 +21,14 @@
                 styles: config.style ? JSON.parse(config.style) : []
             });
 
+            // Is it static map?
+            if (config.static){
+                map.setOptions({
+                    gestureHandling: 'none',
+                    keyboardShortcuts: false
+                });
+            }
+
             // Draw markers if available
             if (config.markers.length) {
                 // Instances of google.maps.Marker
