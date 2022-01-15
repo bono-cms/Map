@@ -6,4 +6,5 @@ TODO
  * Region - optional parameter in URL
  * Google Map Marker - ability to upload icons instead of defining path
  * Separate Google as some kind of Extension
- * Shared API key for all maps
+ * Global default options
+ * Control options
