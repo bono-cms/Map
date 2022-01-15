@@ -36,7 +36,7 @@ defined('KRYSTAL') or die;
         <div role="tabpanel" class="tab-pane" id="configuration">
             <?= $this->field()->hidden('marker[id]', $entity->getId()); ?>
             <?= $this->field()->hidden('marker[map_id]', $entity->getMapId()); ?>
-
+            <?= $this->field('Load coordinates by address')->text(null, null, array('id' => 'autocomplete', 'class' => 'form-control')); ?>
             <?= $this->field('Latitude')->text('marker[lat]', $entity->getLat(), array('class' => 'form-control')); ?>
             <?= $this->field('Longitude')->text('marker[lng]', $entity->getLng(), array('class' => 'form-control')); ?>
             <?= $this->field('Path to custom icon')->text('marker[icon]', $entity->getIcon(), array('class' => 'form-control')); ?>
