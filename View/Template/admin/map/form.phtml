@@ -92,6 +92,10 @@ defined('KRYSTAL') or die;
                         ),
 
                         array(
+                            'column' => 'address',
+                        ),
+                        
+                        array(
                             'column' => 'lat',
                             'label' => 'Latitude'
                         ),
@@ -102,11 +106,7 @@ defined('KRYSTAL') or die;
                         ),
 
                         array(
-                            'column' => 'draggable',
-                            'translateable' => true,
-                            'value' => function($row){
-                                return $row['draggable'] ? 'Yes' : 'No';
-                            }
+                            'column' => 'order'
                         ),
 
                         array(
