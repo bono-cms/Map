@@ -71,6 +71,7 @@ defined('KRYSTAL') or die;
                 <?= $this->field('Clustering for all markers')->checkbox('map[clustering]', $map->getClustering()); ?>
                 <?php endif; ?>
 
+                <?= $this->field('Static')->checkbox('map[static]', $map->getStatic()); ?>
                 <?= $this->field('Custom style')->textarea('map[style]', $map->getStyle(), array('rows' => 8, 'class' => 'form-control', 'placeholder' => $this->translate('Insert custom style JavaScript array'))); ?>
             </div>
 

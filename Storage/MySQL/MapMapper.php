@@ -46,7 +46,8 @@ final class MapMapper extends AbstractMapper implements MapMapperInterface
             self::column('clustering'),
             self::column('type'),
             self::column('gesture'),
-            self::column('routed')
+            self::column('routed'),
+            self::column('static')
         );
 
         $db = $this->db->select($columns)
