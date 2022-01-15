@@ -19,6 +19,7 @@ Before you get started, please [obtain your API](https://developers.google.com/m
 - Unlimited number of maps. Create and render them as many as you want!
 - Automatic language detection when rendering a map (if not explicitly defined in configuration)
 - Routed maps. Just add markers and mark Routed checked and that's all!
+- Static maps. In case your want to disable scrolling of the map
 
 ## Installation
 
