@@ -86,9 +86,10 @@ final class MapService extends AbstractManager
      * 
      * @param string $key API key provided by Google
      * @param string $language Optional language
+     * @param string $libraries Optional libraries
      * @return string
      */
-    public static function createServiceUrl($key, $language = null)
+    public static function createServiceUrl($key, $language = null, $libraries = null)
     {
         $base = 'https://maps.googleapis.com/maps/api/js';
 
@@ -97,7 +98,11 @@ final class MapService extends AbstractManager
             $language = null;
         }
 
-        return $base . '?' . http_build_query(array('key' => $key, 'language' => $language));
+        return $base . '?' . http_build_query(array(
+            'key' => $key,
+            'language' => $language,
+            'libraries' => $libraries
+        ));
     }
 
     /**
