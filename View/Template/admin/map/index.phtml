@@ -10,11 +10,8 @@ defined('KRYSTAL') or die;
 
 <div class="btn-toolbar">
     <div class="btn-group mr-2">
-        <?php $this->loadPartial('menu', array(
-            'items' => array(
-                'Map:Admin:Map@addAction' => 'Add new map',
-            )
-        )); ?>
+        <a class="btn btn-primary" href="<?= $this->url('Map:Admin:Map@addAction'); ?>"><?= $this->translate('Add new map'); ?></a>
+        
     </div>
 </div>
 
