@@ -115,7 +115,7 @@ final class MapMarkerMapper extends AbstractMapper implements MapMarkerMapperInt
         $db = $this->createEntitySelect($this->getColumns())
                    ->whereEquals(MapMarkerTranslationMapper::column('lang_id'), $this->getLangId())
                    ->andWhereEquals(self::column('map_id'), $mapId)
-                   ->orderBy(self::column('id'))
+                   ->orderBy(self::column('order'))
                    ->desc();
 
         return $db->queryAll();
