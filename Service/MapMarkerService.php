@@ -53,7 +53,8 @@ final class MapMarkerService extends AbstractManager
                ->setIcon($row['icon'])
                ->setAnimation($row['animation'])
                ->setDescription($row['description'])
-               ->setOrder($row['order']);
+               ->setOrder($row['order'])
+               ->setAddress($row['address']);
 
         return $entity;
     }

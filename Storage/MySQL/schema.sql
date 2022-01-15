@@ -27,6 +27,7 @@ CREATE TABLE `bono_module_map_markers` (
     `icon` varchar(255) NOT NULL COMMENT 'Optional custom map icon',
     `animation` BOOLEAN NOT NULL COMMENT 'Whether this marker has animation',
     `order` TINYINT NOT NULL COMMENT 'Sorting order',
+    `address` TEXT NOT NULL COMMENT 'Address hint',
 
     FOREIGN KEY (map_id) REFERENCES bono_module_map_maps(id) ON DELETE CASCADE
 );
