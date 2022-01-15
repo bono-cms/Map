@@ -12,7 +12,8 @@ CREATE TABLE `bono_module_map_maps` (
     `icon` varchar(255) NOT NULL COMMENT 'Shared icon for all markers',
     `clustering` BOOLEAN DEFAULT 0 COMMENT 'Whether use clustering for markers',
     `type` varchar(30) NOT NULL COMMENT 'Map type',
-    `gesture` varchar(30) NOT NULL COMMENT 'Getsture type'
+    `gesture` varchar(30) NOT NULL COMMENT 'Getsture type',
+    `routed` BOOLEAN NOT NULL COMMENT 'Whether map is routed'
 );
 
 /* Markers */

@@ -67,6 +67,7 @@ defined('KRYSTAL') or die;
                     </div>
                 </div>
 
+                <?= $this->field('Routed')->checkbox('map[routed]', $map->getRouted()); ?>
                 <?= $this->field('Clustering for all markers')->checkbox('map[clustering]', $map->getClustering()); ?>
                 <?php endif; ?>
 

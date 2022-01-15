@@ -70,7 +70,8 @@ final class MapService extends AbstractManager
                ->setIcon($row['icon'])
                ->setClustering($row['clustering'])
                ->setType($row['type'])
-               ->setGesture($row['gesture']);
+               ->setGesture($row['gesture'])
+               ->setRouted($row['routed']);
 
         if (isset($row['marker_count'])) {
             $entity->setMarkerCount($row['marker_count']);
