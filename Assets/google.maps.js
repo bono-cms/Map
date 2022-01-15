@@ -1,3 +1,5 @@
+"use strict";
+
 (function(document, console, JSON, google){
     // Inform about current API Version
     console.log('Google Maps API Version: ' + google.maps.version);
@@ -23,8 +25,11 @@
             if (config.markers.length) {
                 // Instances of google.maps.Marker
                 var clustering = [];
+                var request = {
+                    travelMode: google.maps.TravelMode.DRIVING
+                };
 
-                for (i = 0; i < config.markers.length; i++) {
+                for (var i = 0; i < config.markers.length; i++) {
                     (function(i, clustering){
                         // Current marker
                         var current = config.markers[i];
@@ -36,7 +41,7 @@
                                 lat: parseFloat(current.lat),
                                 lng: parseFloat(current.lng)
                             }, 
-                            map: map,
+                            map: config.routed ? null : map,
                             icon : current.icon !== '' ? current.icon : null,
                             animation : hasAnimation ? google.maps.Animation.DROP : null
                         });
@@ -81,12 +86,46 @@
                             clustering.push(marker);
                         }
 
+                        // Is this routed map?
+                        if (config.routed) {
+                            if (i == 0) { // Start point
+                                request.origin = marker.getPosition();
+                            } else if (i == config.markers.length - 1) { // Endpoint
+                                request.destination = marker.getPosition();
+                            } else {
+                              // The rest
+                              if (!request.waypoints) {
+                                request.waypoints = [];
+                              }
+
+                              request.waypoints.push({
+                                location: marker.getPosition(),
+                                stopover: true
+                              });
+                            }
+                        }
                     })(i, clustering);
                 }
 
                 if (config.clustering && typeof(MarkerClusterer) !== 'undefined') {
                     var markerCluster = new MarkerClusterer(map, clustering, {
                         imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+                    });
+                }
+
+                // Is this routed map?
+                if (config.routed) {
+                    var directionsDisplay = new google.maps.DirectionsRenderer({
+                        suppressMarkers: true
+                    });
+
+                    directionsDisplay.setMap(map);
+
+                    var directionsService = new google.maps.DirectionsService();
+                    directionsService.route(request, function(result, status) {
+                        if (status == google.maps.DirectionsStatus.OK) {
+                            directionsDisplay.setDirections(result);
+                        }
                     });
                 }
             }
