@@ -49,7 +49,7 @@
                                 lat: parseFloat(current.lat),
                                 lng: parseFloat(current.lng)
                             }, 
-                            map: config.routed ? null : map,
+                            map: map,
                             icon : current.icon !== '' ? current.icon : null,
                             animation : hasAnimation ? google.maps.Animation.DROP : null
                         });
