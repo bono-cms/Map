@@ -13,6 +13,7 @@ Before you get started, please [obtain your API](https://developers.google.com/m
 - Markers. Just provide their latitude and longitude
 - Marker clustering. Group large number of markers into a group that gets zoomed on click
 - Marker animations
+- Marker labels
 - Coordinate inheritance. Map markers can inherit coordinates from a parent map
 - Shared map icons. Just define one icon only once which then to be rendered in all markers!
 - Optional information window for markers
