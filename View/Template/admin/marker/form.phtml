@@ -27,6 +27,7 @@ defined('KRYSTAL') or die;
 
                     <?= $this->field()->hidden(sprintf('translation[%s][id]', $language->getId()), $entity->getId()); ?>
                     <?= $this->field()->hidden(sprintf('translation[%s][lang_id]', $language->getId()), $language->getId()); ?>
+                    <?= $this->field()->text(sprintf('translation[%s][label]', $language->getId()), $entity->getLabel(), array('class' => 'form-control', 'placeholder' => $this->translate('Optional label'))); ?>
                     <?= $this->field()->textarea(sprintf('translation[%s][description]', $language->getId()), $entity->getDescription(), array('data-wysiwyg' => 'true')); ?>
                 </div>
                 <?php endforeach; ?>
