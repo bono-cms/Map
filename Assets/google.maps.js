@@ -44,6 +44,7 @@
                         var hasAnimation = current.animation == '1';
 
                         var marker = new google.maps.Marker({
+                            label: current.label !== '' ? current.label : null, 
                             draggable: current.draggable == 1,
                             position: {
                                 lat: parseFloat(current.lat),
