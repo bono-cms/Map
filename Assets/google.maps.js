@@ -22,7 +22,7 @@
             });
 
             // Is it static map?
-            if (config.static){
+            if (config.static == 1){
                 map.setOptions({
                     gestureHandling: 'none',
                     keyboardShortcuts: false
