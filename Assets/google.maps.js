@@ -37,15 +37,16 @@
                     travelMode: google.maps.TravelMode.DRIVING
                 };
 
-                for (var i = 0; i < config.markers.length; i++) {
+                for (var i = 0; i < config.markers.length; i++){
                     (function(i, clustering){
                         // Current marker
                         var current = config.markers[i];
                         var hasAnimation = current.animation == '1';
+                        var draggable = current.draggable == 1;
 
                         var marker = new google.maps.Marker({
                             label: current.label !== '' ? current.label : null, 
-                            draggable: current.draggable == 1,
+                            draggable: draggable,
                             position: {
                                 lat: parseFloat(current.lat),
                                 lng: parseFloat(current.lng)
@@ -54,6 +55,14 @@
                             icon : current.icon !== '' ? current.icon : null,
                             animation : hasAnimation ? google.maps.Animation.DROP : null
                         });
+
+                        // If it's draggable, keep new coordinates
+                        if (draggable) {
+                            google.maps.event.addListener(marker, 'dragend', function(event){
+                                console.log('New lat: ' + this.getPosition().lat());
+                                console.log('New lng: ' + this.getPosition().lng());
+                            });
+                        }
 
                         // If description provided, then attach InfoWindow
                         if (current.description) {
