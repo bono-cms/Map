@@ -13,7 +13,8 @@ CREATE TABLE `bono_module_map_maps` (
     `clustering` BOOLEAN DEFAULT 0 COMMENT 'Whether use clustering for markers',
     `type` varchar(30) NOT NULL COMMENT 'Map type',
     `gesture` varchar(30) NOT NULL COMMENT 'Getsture type',
-    `routed` BOOLEAN NOT NULL COMMENT 'Whether map is routed'
+    `routed` BOOLEAN NOT NULL COMMENT 'Whether map is routed',
+    `static` BOOLEAN NOT NULL COMMENT 'Whether map is static'
 );
 
 /* Markers */
