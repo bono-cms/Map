@@ -42,7 +42,7 @@
                         // Current marker
                         var current = config.markers[i];
                         var hasAnimation = current.animation == '1';
-                        var draggable = current.draggable == 1;
+                        var draggable = current.draggable == '1';
 
                         var marker = new google.maps.Marker({
                             label: current.label !== '' ? current.label : null, 
@@ -100,12 +100,12 @@
                         });
 
                         // Do we require clustering? If so, then push it for latter usage
-                        if (config.clustering) {
+                        if (config.clustering == '1') {
                             clustering.push(marker);
                         }
 
                         // Is this routed map?
-                        if (config.routed) {
+                        if (config.routed == '1') {
                             if (i == 0) { // Start point
                                 request.origin = marker.getPosition();
                             } else if (i == config.markers.length - 1) { // Endpoint
