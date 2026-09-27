@@ -15,7 +15,7 @@ CREATE TABLE `bono_module_map_maps` (
     `gesture` varchar(30) NOT NULL COMMENT 'Getsture type',
     `routed` BOOLEAN NOT NULL COMMENT 'Whether map is routed',
     `static` BOOLEAN NOT NULL COMMENT 'Whether map is static'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /* Markers */
 CREATE TABLE `bono_module_map_markers` (
@@ -31,7 +31,7 @@ CREATE TABLE `bono_module_map_markers` (
     `address` TEXT NOT NULL COMMENT 'Address hint',
 
     FOREIGN KEY (map_id) REFERENCES bono_module_map_maps(id) ON DELETE CASCADE
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `bono_module_map_markers_translations` (
     `id` INT NOT NULL,
@@ -40,4 +40,4 @@ CREATE TABLE `bono_module_map_markers_translations` (
 
     FOREIGN KEY (id) REFERENCES bono_module_map_markers(id) ON DELETE CASCADE,
     FOREIGN KEY (lang_id) REFERENCES bono_module_cms_languages(id) ON DELETE CASCADE
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
