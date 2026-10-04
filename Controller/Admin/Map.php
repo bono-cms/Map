@@ -3,15 +3,12 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
 
 namespace Map\Controller\Admin;
 
-use Krystal\Validate\Pattern;
 use Krystal\Stdlib\VirtualEntity;
 use Cms\Controller\Admin\AbstractController;
 use Map\Collection\LanguageCollection;
@@ -39,9 +36,9 @@ final class Map extends AbstractController
             $this->view->getBreadcrumbBag()->addOne('Maps', 'Map:Admin:Map@indexAction')
                                            ->addOne($this->translator->translate('Viewing the "%s" map', $map->getName()));
 
-            return $this->view->render('map/view', array(
+            return $this->view->render('map/view', [
                 'config' => $this->getModuleService('mapMarkerService')->createConfiguration($map, $code)
-            ));
+            ]);
 
         } else {
             return false;
@@ -65,13 +62,13 @@ final class Map extends AbstractController
         $typeCol = new MapTypeCollection();
         $gstCol = new GestureCollection();
 
-        return $this->view->render('map/form', array(
+        return $this->view->render('map/form', [
             'map' => $map,
             'markers' => $map->getId() ? $this->getModuleService('mapMarkerService')->fetchAll($map->getId()) : false,
             'mapLanguages' => $langCol->getAll(),
             'mapTypes' => $typeCol->getAll(),
             'mapGestures' => $gstCol->getAll()
-        ));
+        ]);
     }
 
     /**
@@ -84,9 +81,9 @@ final class Map extends AbstractController
         // Append breadcrumbs
         $this->view->getBreadcrumbBag()->addOne('Maps', 'Map:Admin:Map@indexAction');
 
-        return $this->view->render('map/index', array(
+        return $this->view->render('map/index', [
             'maps' => $this->getModuleService('mapService')->fetchAll()
-        ));
+        ]);
     }
 
     /**
@@ -131,40 +128,9 @@ final class Map extends AbstractController
         $this->getModuleService('mapService')->deleteById($id);
 
         $this->flashBag->set('success', 'Selected element has been removed successfully');
-        return 1;
-    }
-
-    /**
-     * Returns form validation rules
-     * 
-     * @return array
-     */
-    private function getRules()
-    {
-        return array(
-            'name' => new Pattern\Name,
-            'height' => new Pattern\Height,
-            'lat' => array(
-                'required' => true,
-                'rules' => array('Latitude')
-            ),
-            'lng' => array(
-                'required' => true,
-                'rules' => array('Longitude')
-            ),
-            'api_key' => array(
-                'required' => true,
-                'rules' => array(
-                    'NotEmpty' => array(
-                        'message' => 'Google API key can not be empty'
-                    )
-                )
-            ),
-            'style' => array(
-                'required' => false,
-                'rules' => array('Json')
-            )
-        );
+        return $this->json([
+            'refresh' => true
+        ]);
     }
 
     /**
@@ -174,31 +140,55 @@ final class Map extends AbstractController
      */
     public function saveAction()
     {
-        // Raw POST data
-        $input = $this->request->getAll();
+        $validator = $this->createValidation();
 
-        $formValidator = $this->createValidator(array(
-            'input' => array(
-                'source' => $input['data']['map'],
-                'definition' => $this->getRules()
-            )
-        ));
+        $validator->field('map.name')
+                  ->required();
 
-        if ($formValidator->isValid()) {
+        $validator->field('map.height')
+                  ->required()
+                  ->addRule('integer');
+
+        $validator->field('map.lat')
+                  ->required()
+                  ->addRule('latitude');
+
+        $validator->field('map.lng')
+                  ->required()
+                  ->addRule('longitude');
+
+        $validator->field('map.api_key')
+                  ->required();
+
+        $validator->field('map.zoom')
+                  ->required();
+
+        $validator->field('map.style')
+                  ->addRule('json');
+
+        if ($validator->isPassed()) {
+            // Raw POST data
+            $input = $this->request->getAll();
+
             $mapService = $this->getModuleService('mapService');
             $mapService->save($input);
 
             if ($input['data']['map']['id']) {
                 $this->flashBag->set('success', 'The element has been updated successfully');
-                return 1;
+                return $this->json([
+                    'refresh' => true
+                ]);
             } else {
-
                 $this->flashBag->set('success', 'The element has been created successfully');
-                return $mapService->getLastId();
+                return $this->json([
+                    'redirect' => $this->createUrl('Map:Admin:Map@editAction', [$mapService->getLastId()]),
+                ]);
             }
 
         } else {
-            return $formValidator->getErrors();
+            return $this->json([
+                'errors' => $validator->getErrors()
+            ]);
         }
     }
 }

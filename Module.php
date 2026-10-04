@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -32,10 +30,10 @@ final class Module extends AbstractCmsModule
         $mapService = new MapService($this->getMapper('\Map\Storage\MySQL\MapMapper'), $this->getAppConfig());
         $mapMarkerService = new MapMarkerService($this->getMapper('\Map\Storage\MySQL\MapMarkerMapper'));
 
-        return array(
+        return [
             'siteService' => new SiteService($mapService, $mapMarkerService, $code),
             'mapService' => $mapService,
             'mapMarkerService' => $mapMarkerService
-        );
+        ];
     }
 }

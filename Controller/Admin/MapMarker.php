@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -12,7 +10,6 @@
 namespace Map\Controller\Admin;
 
 use Krystal\Stdlib\VirtualEntity;
-use Krystal\Validate\Pattern;
 use Cms\Controller\Admin\AbstractController;
 use Map\Service\MapService;
 
@@ -52,19 +49,19 @@ final class MapMarker extends AbstractController
         if ($map !== false) {
             // Load view plugins
             $this->view->getPluginBag()->load($this->getWysiwygPluginName())
-                                       ->appendScripts(array(
+                                       ->appendScripts([
                                             MapService::createServiceUrl($map->getApiKey(), $this->appConfig->getLanguage(), 'places'),
                                             '@Map/google.handler.js'
-                                       ));
+                                       ]);
 
             // Append breadcrumbs
             $this->view->getBreadcrumbBag()->addOne('Maps', $this->createUrl('Map:Admin:Map@indexAction'))
-                                           ->addOne($this->translator->translate('Edit the map "%s"', $map->getName()), $this->createUrl('Map:Admin:Map@editAction', array($mapId)))
+                                           ->addOne($this->translator->translate('Edit the map "%s"', $map->getName()), $this->createUrl('Map:Admin:Map@editAction', [$mapId]))
                                            ->addOne($title);
 
-            return $this->view->render('marker/form', array(
+            return $this->view->render('marker/form', [
                 'marker' => $marker
-            ));
+            ]);
         } else {
             return false;
         }
@@ -120,7 +117,9 @@ final class MapMarker extends AbstractController
         $this->getModuleService('mapMarkerService')->deleteById($id);
 
         $this->flashBag->set('success', 'Selected element has been removed successfully');
-        return 1;
+        return $this->json([
+            'refresh' => true
+        ]);
     }
 
     /**
@@ -130,43 +129,41 @@ final class MapMarker extends AbstractController
      */
     public function saveAction()
     {
-        $input = $this->request->getPost();
+        $validator = $this->createValidation();
 
-        $formValidator = $this->createValidator(array(
-            'input' => array(
-                'source' => $input['marker'],
-                'definition' => array(
-                    'lat' => array(
-                        'required' => true,
-                        'rules' => array(
-                            'Latitude'
-                        )
-                    ),
-                    'lng' => array(
-                        'required' => true,
-                        'rules' => array(
-                            'Longitude'
-                        )
-                    ),
-                    'icon' => new Pattern\Url
-                )
-            )
-        ));
+        $validator->field('marker.lat')
+                  ->required()
+                  ->addRule('latitude');
 
-        if ($formValidator->isValid()) {
+        $validator->field('marker.lng')
+                  ->required()
+                  ->addRule('longitude');
+
+        $validator->field('marker.icon')
+                  ->addRule('urlpattern');
+
+        if ($validator->isPassed()) {
+            $input = $this->request->getPost();
+
             $mapMarkerService = $this->getModuleService('mapMarkerService');
             $mapMarkerService->save($input);
 
             if ($input['marker']['id']) {
                 $this->flashBag->set('success', 'The element has been updated successfully');
-                return 1;
+                return $this->json([
+                    'refresh' => true
+                ]);
             } else {
                 $this->flashBag->set('success', 'The element has been created successfully');
-                return $mapMarkerService->getLastId();
+                return $this->json([
+                    'redirect' => $this->createUrl('Map:Admin:MapMarker@editAction', [$mapMarkerService->getLastId()]),
+                ]);
             }
 
         } else {
-            return $formValidator->getErrors();
+            return $this->json([
+                'errors' => $validator->getErrors()
+            ]);
         }
     }
 }

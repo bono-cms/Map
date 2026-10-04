@@ -4,17 +4,17 @@
  * Module configuration container
  */
 
-return array(
+return [
     'name' => 'Map',
     'description' => 'Map module lets you manage maps on your site',
-    'menu' => array(
+    'menu' => [
         'name' => 'Maps',
         'icon' => 'fas fa-map-marked-alt',
-        'items' => array(
-            array(
+        'items' => [
+            [
                 'route' => 'Map:Admin:Map@indexAction',
                 'name' => 'View all maps'
-            )
-        )
-    )
-);
+            ]
+        ]
+    ]
+];

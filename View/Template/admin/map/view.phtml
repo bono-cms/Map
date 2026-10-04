@@ -9,10 +9,10 @@ if ($config['clustering'] == true) {
 }
 
 // Append required scripts to run maps
-$this->getPluginBag()->appendScripts(array(
+$this->getPluginBag()->appendScripts([
     MapService::createServiceUrl($config['key'], $config['language']),
     '@Map/google.maps.js'
-));
+]);
 
 ?>
 

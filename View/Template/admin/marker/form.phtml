@@ -25,35 +25,101 @@ defined('KRYSTAL') or die;
                 <div class="tab-pane fade in <?php echo $index == 0 ? 'active show' : null; ?>" id="<?php printf('language-%s', $language->getId()); ?>" role="tabpanel">
                     <?php $this->loadPartial('language-name', array('language' => $language)); ?>
 
-                    <?= $this->field()->hidden(sprintf('translation[%s][id]', $language->getId()), $entity->getId()); ?>
-                    <?= $this->field()->hidden(sprintf('translation[%s][lang_id]', $language->getId()), $language->getId()); ?>
-                    <?= $this->field()->text(sprintf('translation[%s][label]', $language->getId()), $entity->getLabel(), array('class' => 'form-control', 'placeholder' => $this->translate('Optional label'))); ?>
-                    <?= $this->field()->textarea(sprintf('translation[%s][description]', $language->getId()), $entity->getDescription(), array('data-wysiwyg' => 'true')); ?>
+                    <?= Element::hidden(sprintf('translation[%s][id]', $language->getId()), $entity->getId()); ?>
+                    <?= Element::hidden(sprintf('translation[%s][lang_id]', $language->getId()), $language->getId()); ?>
+
+                    <div class="form-group row mb-3">
+                        <label class="col-lg-2 col-form-label"><?= $this->translate('Label'); ?></label>
+                        <div class="col-lg-10">
+                            <?= Element::text(sprintf('translation[%s][label]', $language->getId()), $entity->getLabel(), ['class' => 'form-control', 'placeholder' => $this->translate('Optional label')]); ?>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        <label class="col-lg-2 col-form-label"><?= $this->translate('Description'); ?></label>
+                        <div class="col-lg-10">
+                            <?= Element::textarea(sprintf('translation[%s][description]', $language->getId()), $entity->getDescription(), ['data-wysiwyg' => 'true']); ?>
+                        </div>
+                    </div>
                 </div>
                 <?php endforeach; ?>
             </div>
 		</div>
 
         <div role="tabpanel" class="tab-pane" id="configuration">
-            <?= $this->field()->hidden('marker[id]', $entity->getId()); ?>
-            <?= $this->field()->hidden('marker[map_id]', $entity->getMapId()); ?>
-            <?= $this->field('Load coordinates by address')->text('marker[address]', $entity->getAddress(), array('id' => 'autocomplete', 'class' => 'form-control')); ?>
-            <?= $this->field('Latitude')->text('marker[lat]', $entity->getLat(), array('class' => 'form-control')); ?>
-            <?= $this->field('Longitude')->text('marker[lng]', $entity->getLng(), array('class' => 'form-control')); ?>
-            <?= $this->field('Path to custom icon')->text('marker[icon]', $entity->getIcon(), array('class' => 'form-control')); ?>
-            <?= $this->field('Enable animation')->checkbox('marker[animation]', $entity->getAnimation()); ?>
-            <?= $this->field('Automatically popup')->checkbox('marker[popup]', $entity->getPopup()); ?>
-            <?= $this->field('Draggable')->checkbox('marker[draggable]', $entity->getDragable()); ?>
-            <?= $this->field('Order')->number('marker[order]', $entity->getOrder(), array('class' => 'form-control', 'min' => 0)); ?>
+            <?= Element::hidden('marker[id]', $entity->getId()); ?>
+            <?= Element::hidden('marker[map_id]', $entity->getMapId()); ?>
+
+            <div class="form-group row mb-3">
+                <label class="col-lg-2 col-form-label"><?= $this->translate('Load coordinates by address'); ?></label>
+                <div class="col-lg-10">
+                    <?= Element::text('marker[address]', $entity->getAddress(), ['id' => 'autocomplete', 'class' => 'form-control']); ?>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <label class="col-lg-2 col-form-label"><?= $this->translate('Latitude'); ?></label>
+                <div class="col-lg-10">
+                    <?= Element::text('marker[lat]', $entity->getLat(), ['class' => 'form-control']); ?>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <label class="col-lg-2 col-form-label"><?= $this->translate('Longitude'); ?></label>
+                <div class="col-lg-10">
+                    <?= Element::text('marker[lng]', $entity->getLng(), ['class' => 'form-control']); ?>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <label class="col-lg-2 col-form-label"><?= $this->translate('Path to custom icon'); ?></label>
+                <div class="col-lg-10">
+                    <?= Element::text('marker[icon]', $entity->getIcon(), ['class' => 'form-control']); ?>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <label class="col-lg-2 col-form-label"><?= $this->translate('Enable animation'); ?></label>
+                <div class="col-lg-10">
+                    <div class="form-check">
+                        <?= Element::checkbox('marker[animation]', $entity->getAnimation(), ['class' => 'form-check-input']); ?>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <label class="col-lg-2 col-form-label"><?= $this->translate('Automatically popup'); ?></label>
+                <div class="col-lg-10">
+                    <div class="form-check">
+                        <?= Element::checkbox('marker[popup]', $entity->getPopup(), ['class' => 'form-check-input']); ?>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <label class="col-lg-2 col-form-label"><?= $this->translate('Draggable'); ?></label>
+                <div class="col-lg-10">
+                    <div class="form-check">
+                        <?= Element::checkbox('marker[draggable]', $entity->getDragable(), ['class' => 'form-check-input']); ?>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <label class="col-lg-2 col-form-label"><?= $this->translate('Order'); ?></label>
+                <div class="col-lg-10">
+                    <?= Element::number('marker[order]', $entity->getOrder(), ['class' => 'form-control', 'min' => 0]); ?>
+                </div>
+            </div>
         </div>
 	</div>
 
-    <?php $this->loadPartial('actions', array(
+    <?php $this->loadPartial('actions', [
         'new' => !$entity->getId(),
         'add' => 'Map:Admin:MapMarker@addAction',
         'edit' => 'Map:Admin:MapMarker@editAction',
         'save' => 'Map:Admin:MapMarker@saveAction',
-        'cancel' => array('Map:Admin:Map@editAction', $entity->getMapId())
-    )); ?>
+        'cancel' => ['Map:Admin:Map@editAction', $entity->getMapId()]
+    ]); ?>
 
 </form>

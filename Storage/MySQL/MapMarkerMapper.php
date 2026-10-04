@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -39,7 +37,7 @@ final class MapMarkerMapper extends AbstractMapper implements MapMarkerMapperInt
      */
     private function getColumns()
     {
-        return array(
+        return [
             self::column('id'),
             self::column('map_id'),
             self::column('lat'),
@@ -53,7 +51,7 @@ final class MapMarkerMapper extends AbstractMapper implements MapMarkerMapperInt
             MapMarkerTranslationMapper::column('lang_id'),
             MapMarkerTranslationMapper::column('label'),
             MapMarkerTranslationMapper::column('description')
-        );
+        ];
     }
 
     /**
@@ -82,13 +80,13 @@ final class MapMarkerMapper extends AbstractMapper implements MapMarkerMapperInt
     {
         $db = $this->db->update(self::getTableName())
                        // Map relation
-                       ->innerJoin(MapMapper::getTableName(), array(
+                       ->innerJoin(MapMapper::getTableName(), [
                             MapMapper::column('id') => self::getRawColumn('map_id')
-                       ))
-                       ->set(array(
+                       ])
+                       ->set([
                             self::column('lat') => MapMapper::getRawColumn('lat'),
                             self::column('lng') => MapMapper::getRawColumn('lng')
-                       ))
+                       ])
                        ->whereEquals(self::column('id'), $id);
 
         return (bool) $db->execute(true);

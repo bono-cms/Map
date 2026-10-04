@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -96,7 +94,7 @@ final class MapMarkerService extends AbstractManager
         }
 
         // Required parameters for rendering
-        return array(
+        return [
             'static' => $map->getStatic(),
             'routed' => $map->getRouted(),
             'gesture' => $map->getGesture(),
@@ -111,7 +109,7 @@ final class MapMarkerService extends AbstractManager
             'style' => $map->getStyle(),
             'language' => $map->getLanguage(),
             'markers' => $this->createMarkers($map)
-        );
+        ];
     }
 
     /**

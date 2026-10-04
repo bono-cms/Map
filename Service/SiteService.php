@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -82,9 +80,9 @@ final class SiteService
 
         // Make sure right map ID supplied
         if ($map !== false) {
-            return $this->view->renderRaw('Map', 'admin', 'map/view', array(
+            return $this->view->renderRaw('Map', 'admin', 'map/view', [
                 'config' => $this->mapMarkerService->createConfiguration($map, $this->code)
-            ));
+            ]);
 
         } else {
             return null;

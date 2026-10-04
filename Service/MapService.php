@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -99,11 +97,11 @@ final class MapService extends AbstractManager
             $language = null;
         }
 
-        return $base . '?' . http_build_query(array(
+        return $base . '?' . http_build_query([
             'key' => $key,
             'language' => $language,
             'libraries' => $libraries
-        ));
+        ]);
     }
 
     /**
@@ -204,7 +202,7 @@ final class MapService extends AbstractManager
             // Upload
             $uploader = new FileUploader();
 
-            if ($uploader->upload($destination, array($icon))) {
+            if ($uploader->upload($destination, [$icon])) {
                 $data['icon'] = self::ICON_PATH . '/' . $id  . '/' . $icon->getUniqueName();
             }
         }

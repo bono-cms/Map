@@ -30,28 +30,81 @@ defined('KRYSTAL') or die;
         <!-- Tab panes -->
         <div class="tab-content">
             <div class="tab-pane active" id="map">
-                <?= $this->field()->hidden('map[id]', $map->getId()); ?>
-                <?= $this->field('Map name')->text('map[name]', $map->getName(), array('class' => 'form-control', 'placeholder' => $this->translate('Map name should cover its intentions'))); ?>
-                <?= $this->field('Latitude')->text('map[lat]', $map->getLat(), array('class' => 'form-control')); ?>
-                <?= $this->field('Longitude')->text('map[lng]', $map->getLng(), array('class' => 'form-control')); ?>
-                <?= $this->field('Language')->select('map[language]', $mapLanguages, $map->getLanguage(), array('class' => 'form-control'), null); ?>
-                <?= $this->field('API Key')->text('map[api_key]', $map->getApiKey(), array('class' => 'form-control')); ?>
+                <?= Element::hidden('map[id]', $map->getId()); ?>
 
-                <?php $this->loadPartial('actions', array(
+                <div class="form-group row mb-3">
+                    <label class="col-lg-2 col-form-label"><?= $this->translate('Map name'); ?></label>
+                    <div class="col-lg-10">
+                        <?= Element::text('map[name]', $map->getName(), ['class' => 'form-control', 'placeholder' => $this->translate('Map name should cover its intentions')]); ?>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label class="col-lg-2 col-form-label"><?= $this->translate('Latitude'); ?></label>
+                    <div class="col-lg-10">
+                        <?= Element::text('map[lat]', $map->getLat(), ['class' => 'form-control']); ?>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label class="col-lg-2 col-form-label"><?= $this->translate('Longitude'); ?></label>
+                    <div class="col-lg-10">
+                        <?= Element::text('map[lng]', $map->getLng(), ['class' => 'form-control']); ?>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label class="col-lg-2 col-form-label"><?= $this->translate('Language'); ?></label>
+                    <div class="col-lg-10">
+                        <?= Element::select('map[language]', $mapLanguages, $map->getLanguage(), ['class' => 'form-control'], ''); ?>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label class="col-lg-2 col-form-label"><?= $this->translate('API Key'); ?></label>
+                    <div class="col-lg-10">
+                        <?= Element::text('map[api_key]', $map->getApiKey(), ['class' => 'form-control']); ?>
+                    </div>
+                </div>
+
+                <?php $this->loadPartial('actions', [
                     'new' => !$map->getId(),
                     'add' => 'Map:Admin:Map@addAction',
                     'edit' => 'Map:Admin:Map@editAction',
                     'save' => 'Map:Admin:Map@saveAction',
                     'cancel' => 'Map:Admin:Map@indexAction'
-                )); ?>
+                ]); ?>
 
             </div>
 
             <div class="tab-pane" id="map-design">
-                <?= $this->field('Height (px)')->number('map[height]', $map->getHeight(), array('class' => 'form-control', 'placeholder' => $this->translate('Define map height in pixels'))); ?>
-                <?= $this->field('Zoom')->text('map[zoom]', $map->getZoom(), array('class' => 'form-control')); ?>
-                <?= $this->field('Map type')->select('map[type]', $this->translateArray($mapTypes), $map->getType(), array('class' => 'form-control')); ?>
-                <?= $this->field('Gesture handling')->select('map[gesture]', $this->translateArray($mapGestures), $map->getGesture(), array('class' => 'form-control')); ?>
+                <div class="form-group row mb-3">
+                    <label class="col-lg-2 col-form-label"><?= $this->translate('Height (px)'); ?></label>
+                    <div class="col-lg-10">
+                        <?= Element::number('map[height]', $map->getHeight(), ['class' => 'form-control', 'placeholder' => $this->translate('Define map height in pixels')]); ?>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label class="col-lg-2 col-form-label"><?= $this->translate('Zoom'); ?></label>
+                    <div class="col-lg-10">
+                        <?= Element::text('map[zoom]', $map->getZoom(), ['class' => 'form-control']); ?>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label class="col-lg-2 col-form-label"><?= $this->translate('Map type'); ?></label>
+                    <div class="col-lg-10">
+                        <?= Element::select('map[type]', $this->translateArray($mapTypes), $map->getType(), ['class' => 'form-control']); ?>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label class="col-lg-2 col-form-label"><?= $this->translate('Gesture handling'); ?></label>
+                    <div class="col-lg-10">
+                        <?= Element::select('map[gesture]', $this->translateArray($mapGestures), $map->getGesture(), ['class' => 'form-control']); ?>
+                    </div>
+                </div>
 
                 <?php if ($markers): ?>
                 <div class="form-group">
@@ -60,19 +113,47 @@ defined('KRYSTAL') or die;
 
                         <?php if ($map->getIcon()): ?>
                         <p><img class="img-fluid" src="<?= $map->getIcon(); ?>"></p>
-                        <p><?php $this->show('Remove this icon'); ?> <?= Element::checkbox('purge', false, array(), false); ?></p>
+                        <p><?php $this->show('Remove this icon'); ?> <?= Element::checkbox('purge', false, [], false); ?></p>
                         <?php endif; ?>
 
-                        <?= Element::fileData('map[icon]', $map->getIcon(), 'image/png', array('class' => 'form-control')); ?>
+                        <?= Element::fileData('map[icon]', $map->getIcon(), 'image/png', ['class' => 'form-control']); ?>
                     </div>
                 </div>
 
-                <?= $this->field('Routed')->checkbox('map[routed]', $map->getRouted()); ?>
-                <?= $this->field('Clustering for all markers')->checkbox('map[clustering]', $map->getClustering()); ?>
+                <div class="form-group row mb-3">
+                    <label class="col-lg-2 col-form-label"><?= $this->translate('Routed'); ?></label>
+                    <div class="col-lg-10">
+                        <div class="form-check">
+                            <?= Element::checkbox('map[routed]', $map->getRouted(), ['class' => 'form-check-input']); ?>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label class="col-lg-2 col-form-label"><?= $this->translate('Clustering for all markers'); ?></label>
+                    <div class="col-lg-10">
+                        <div class="form-check">
+                            <?= Element::checkbox('map[clustering]', $map->getClustering(), ['class' => 'form-check-input']); ?>
+                        </div>
+                    </div>
+                </div>
                 <?php endif; ?>
 
-                <?= $this->field('Static')->checkbox('map[static]', $map->getStatic()); ?>
-                <?= $this->field('Custom style')->textarea('map[style]', $map->getStyle(), array('rows' => 8, 'class' => 'form-control', 'placeholder' => $this->translate('Insert custom style JavaScript array'))); ?>
+                <div class="form-group row mb-3">
+                    <label class="col-lg-2 col-form-label"><?= $this->translate('Static'); ?></label>
+                    <div class="col-lg-10">
+                        <div class="form-check">
+                            <?= Element::checkbox('map[static]', $map->getStatic(), ['class' => 'form-check-input']); ?>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label class="col-lg-2 col-form-label"><?= $this->translate('Custom style'); ?></label>
+                    <div class="col-lg-10">
+                        <?= Element::textarea('map[style]', $map->getStyle(), ['rows' => 8, 'class' => 'form-control', 'placeholder' => $this->translate('Insert custom style JavaScript array')]); ?>
+                    </div>
+                </div>
             </div>
 
             <?php if ($markers !== false): ?>
@@ -88,43 +169,43 @@ defined('KRYSTAL') or die;
                     </div>
                 </div>
 
-                <?= $this->widget(new GridViewWidget($markers, array(
+                <?= $this->widget(new GridViewWidget($markers, [
                     'tableClass' => 'table table-hover table-bordered table-striped',
-                    'columns' => array(
-                        array(
+                    'columns' => [
+                        [
                             'column' => 'id',
                             'label' => '#'
-                        ),
+                        ],
 
-                        array(
+                        [
                             'column' => 'address',
-                        ),
+                        ],
                         
-                        array(
+                        [
                             'column' => 'lat',
                             'label' => 'Latitude'
-                        ),
+                        ],
 
-                        array(
+                        [
                             'column' => 'lng',
                             'label' => 'Longitude'
-                        ),
+                        ],
 
-                        array(
+                        [
                             'column' => 'order'
-                        ),
+                        ],
 
-                        array(
+                        [
                             'column' => 'popup',
                             'label' => 'Automatically popup',
                             'translateable' => true,
                             'value' => function($row){
                                 return $row['popup'] ? 'Yes' : 'No';
                             }
-                        )
-                    ),
+                        ]
+                    ],
 
-                    'actions' => array(
+                    'actions' => [
                         'inherit' => function($row){
                             return Icon::button(
                                 'fas fa-object-ungroup',
@@ -146,8 +227,8 @@ defined('KRYSTAL') or die;
                                 $this->translate('Remove this marker')
                             );
                         }
-                    )
-                ))); ?>
+                    ]
+                ])); ?>
             </div>
             <?php endif; ?>
         </div>

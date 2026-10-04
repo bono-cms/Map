@@ -15,41 +15,41 @@ defined('KRYSTAL') or die;
 </div>
 
 <div class="card">
-    <h4><i class="fas fa-map"></i> <?php $this->show('Maps'); ?> <small>(<?= count($maps); ?>)</small></h4>
+    <h4><i class="fas fa-map"></i> <?= $this->translate('Maps'); ?> <small>(<?= count($maps); ?>)</small></h4>
     <hr >
 
-    <?= $this->widget(new GridViewWidget($maps, array(
+    <?= $this->widget(new GridViewWidget($maps, [
         'tableClass' => 'table table-hover table-bordered table-striped',
-        'columns' => array(
-            array(
+        'columns' => [
+            [
                 'column' => 'id',
                 'label' => '#'
-            ),
+            ],
 
-            array(
+            [
                 'column' => 'name'
-            ),
+            ],
 
-            array(
+            [
                 'column' => 'lat',
                 'label' => 'Latitude'
-            ),
+            ],
 
-            array(
+            [
                 'column' => 'lng',
                 'label' => 'Longitude'
-            ),
+            ],
 
-            array(
+            [
                 'column' => 'zoom'
-            ),
+            ],
 
-            array(
+            [
                 'column' => 'marker_count'
-            )
-        ),
+            ]
+        ],
 
-        'actions' => array(
+        'actions' => [
             'view' => function($row){
                 return Icon::view(
                     $this->url('Map:Admin:Map@viewAction', $row['id']),
@@ -71,8 +71,8 @@ defined('KRYSTAL') or die;
                     $this->translate('Remove this map')
                 );
             }
-        )
-    ))); ?>
+        ]
+    ])); ?>
 
     <?php if (empty($maps)): ?>
     <div class="center-block">
