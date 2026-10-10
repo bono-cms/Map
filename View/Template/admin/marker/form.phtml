@@ -3,39 +3,36 @@
 use Krystal\Form\Element;
 use Cms\Service\LanguageManager;
 
-defined('KRYSTAL') or die;
-
-
 ?>
 
-<form class="card" data-group="marker" autocomplete="off">
+<form class="card" autocomplete="off">
     <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="nav-item active"><a class="nav-link" href="#marker" role="tab" data-toggle="tab"><i class="fas fa-map-marked-alt"></i> <?php $this->show('Description'); ?></a></li>
-        <li role="presentation" class="nav-item"><a class="nav-link" href="#configuration" role="tab" data-toggle="tab"><i class="fas fa-map-marker-alt"></i> <?php $this->show('Marker'); ?></a></li>
+        <li role="presentation" class="nav-item"><a class="nav-link active" href="#marker" role="tab" data-bs-toggle="tab"><i class="fas fa-map-marked-alt"></i> <?= $this->translate('Description'); ?></a></li>
+        <li role="presentation" class="nav-item"><a class="nav-link" href="#configuration" role="tab" data-bs-toggle="tab"><i class="fas fa-map-marker-alt"></i> <?= $this->translate('Marker'); ?></a></li>
     </ul>
 
-    <div class="tab-content">
-		<div class="tab-pane fade in active" id="marker" role="tabpanel">
+    <div class="tab-content pt-3">
+		<div class="tab-pane fade show active" id="marker" role="tabpanel">
             <?php $this->loadPartial('language-tabs'); ?>
 
             <div class="tab-content">
                 <?php foreach ($languages as $index => $language): ?>
                 <?php $entity = LanguageManager::findByLangId($language->getId(), $marker); ?>
 
-                <div class="tab-pane fade in <?php echo $index == 0 ? 'active show' : null; ?>" id="<?php printf('language-%s', $language->getId()); ?>" role="tabpanel">
-                    <?php $this->loadPartial('language-name', array('language' => $language)); ?>
+                <div class="tab-pane fade <?= $index == 0 ? 'show active' : null; ?>" id="<?= sprintf('language-%s', $language->getId()); ?>" role="tabpanel">
+                    <?php $this->loadPartial('language-name', ['language' => $language]); ?>
 
                     <?= Element::hidden(sprintf('translation[%s][id]', $language->getId()), $entity->getId()); ?>
                     <?= Element::hidden(sprintf('translation[%s][lang_id]', $language->getId()), $language->getId()); ?>
 
-                    <div class="form-group row mb-3">
+                    <div class="row mb-3">
                         <label class="col-lg-2 col-form-label"><?= $this->translate('Label'); ?></label>
                         <div class="col-lg-10">
                             <?= Element::text(sprintf('translation[%s][label]', $language->getId()), $entity->getLabel(), ['class' => 'form-control', 'placeholder' => $this->translate('Optional label')]); ?>
                         </div>
                     </div>
 
-                    <div class="form-group row mb-3">
+                    <div class="row mb-3">
                         <label class="col-lg-2 col-form-label"><?= $this->translate('Description'); ?></label>
                         <div class="col-lg-10">
                             <?= Element::textarea(sprintf('translation[%s][description]', $language->getId()), $entity->getDescription(), ['data-wysiwyg' => 'true']); ?>
@@ -50,35 +47,35 @@ defined('KRYSTAL') or die;
             <?= Element::hidden('marker[id]', $entity->getId()); ?>
             <?= Element::hidden('marker[map_id]', $entity->getMapId()); ?>
 
-            <div class="form-group row mb-3">
+            <div class="row mb-3">
                 <label class="col-lg-2 col-form-label"><?= $this->translate('Load coordinates by address'); ?></label>
                 <div class="col-lg-10">
                     <?= Element::text('marker[address]', $entity->getAddress(), ['id' => 'autocomplete', 'class' => 'form-control']); ?>
                 </div>
             </div>
 
-            <div class="form-group row mb-3">
+            <div class="row mb-3">
                 <label class="col-lg-2 col-form-label"><?= $this->translate('Latitude'); ?></label>
                 <div class="col-lg-10">
                     <?= Element::text('marker[lat]', $entity->getLat(), ['class' => 'form-control']); ?>
                 </div>
             </div>
 
-            <div class="form-group row mb-3">
+            <div class="row mb-3">
                 <label class="col-lg-2 col-form-label"><?= $this->translate('Longitude'); ?></label>
                 <div class="col-lg-10">
                     <?= Element::text('marker[lng]', $entity->getLng(), ['class' => 'form-control']); ?>
                 </div>
             </div>
 
-            <div class="form-group row mb-3">
+            <div class="row mb-3">
                 <label class="col-lg-2 col-form-label"><?= $this->translate('Path to custom icon'); ?></label>
                 <div class="col-lg-10">
                     <?= Element::text('marker[icon]', $entity->getIcon(), ['class' => 'form-control']); ?>
                 </div>
             </div>
 
-            <div class="form-group row mb-3">
+            <div class="row mb-3">
                 <label class="col-lg-2 col-form-label"><?= $this->translate('Enable animation'); ?></label>
                 <div class="col-lg-10">
                     <div class="form-check">
@@ -87,7 +84,7 @@ defined('KRYSTAL') or die;
                 </div>
             </div>
 
-            <div class="form-group row mb-3">
+            <div class="row mb-3">
                 <label class="col-lg-2 col-form-label"><?= $this->translate('Automatically popup'); ?></label>
                 <div class="col-lg-10">
                     <div class="form-check">
@@ -96,7 +93,7 @@ defined('KRYSTAL') or die;
                 </div>
             </div>
 
-            <div class="form-group row mb-3">
+            <div class="row mb-3">
                 <label class="col-lg-2 col-form-label"><?= $this->translate('Draggable'); ?></label>
                 <div class="col-lg-10">
                     <div class="form-check">
@@ -105,7 +102,7 @@ defined('KRYSTAL') or die;
                 </div>
             </div>
 
-            <div class="form-group row mb-3">
+            <div class="row mb-3">
                 <label class="col-lg-2 col-form-label"><?= $this->translate('Order'); ?></label>
                 <div class="col-lg-10">
                     <?= Element::number('marker[order]', $entity->getOrder(), ['class' => 'form-control', 'min' => 0]); ?>

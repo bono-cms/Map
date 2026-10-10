@@ -4,63 +4,61 @@ use Krystal\Widget\GridView\GridViewWidget;
 use Cms\View\Icon;
 use Krystal\Form\Element;
 
-defined('KRYSTAL') or die;
-
 ?>
 
 <div class="card">
-    <form data-group="map" autocomplete="off">
+    <form autocomplete="off">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#map"><i class="fas fa-map"></i> <?php $this->show('Map'); ?></a>
+                <a class="nav-link active" data-bs-toggle="tab" href="#map"><i class="fas fa-map"></i> <?= $this->translate('Map'); ?></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#map-design"><i class="fas fa-paint-brush"></i> <?php $this->show('Appearance'); ?></a>
+                <a class="nav-link" data-bs-toggle="tab" href="#map-design"><i class="fas fa-paint-brush"></i> <?= $this->translate('Appearance'); ?></a>
             </li>
 
             <?php if ($markers !== false): ?>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#markers"><i class="fas fa-map-marker-alt"></i> <?php $this->show('Markers'); ?> <span class="text-muted">(<?= count($markers); ?>)</span></a>
+                <a class="nav-link" data-bs-toggle="tab" href="#markers"><i class="fas fa-map-marker-alt"></i> <?= $this->translate('Markers'); ?> <span class="text-muted">(<?= count($markers); ?>)</span></a>
             </li>
             <?php endif; ?>
         </ul>
 
         <!-- Tab panes -->
-        <div class="tab-content">
-            <div class="tab-pane active" id="map">
+        <div class="tab-content pt-3">
+            <div class="tab-pane show active" id="map">
                 <?= Element::hidden('map[id]', $map->getId()); ?>
 
-                <div class="form-group row mb-3">
+                <div class="row mb-3">
                     <label class="col-lg-2 col-form-label"><?= $this->translate('Map name'); ?></label>
                     <div class="col-lg-10">
                         <?= Element::text('map[name]', $map->getName(), ['class' => 'form-control', 'placeholder' => $this->translate('Map name should cover its intentions')]); ?>
                     </div>
                 </div>
 
-                <div class="form-group row mb-3">
+                <div class="row mb-3">
                     <label class="col-lg-2 col-form-label"><?= $this->translate('Latitude'); ?></label>
                     <div class="col-lg-10">
                         <?= Element::text('map[lat]', $map->getLat(), ['class' => 'form-control']); ?>
                     </div>
                 </div>
 
-                <div class="form-group row mb-3">
+                <div class="row mb-3">
                     <label class="col-lg-2 col-form-label"><?= $this->translate('Longitude'); ?></label>
                     <div class="col-lg-10">
                         <?= Element::text('map[lng]', $map->getLng(), ['class' => 'form-control']); ?>
                     </div>
                 </div>
 
-                <div class="form-group row mb-3">
+                <div class="row mb-3">
                     <label class="col-lg-2 col-form-label"><?= $this->translate('Language'); ?></label>
                     <div class="col-lg-10">
-                        <?= Element::select('map[language]', $mapLanguages, $map->getLanguage(), ['class' => 'form-control'], ''); ?>
+                        <?= Element::select('map[language]', $mapLanguages, $map->getLanguage(), ['class' => 'form-select'], ''); ?>
                     </div>
                 </div>
 
-                <div class="form-group row mb-3">
+                <div class="row mb-3">
                     <label class="col-lg-2 col-form-label"><?= $this->translate('API Key'); ?></label>
                     <div class="col-lg-10">
                         <?= Element::text('map[api_key]', $map->getApiKey(), ['class' => 'form-control']); ?>
@@ -78,49 +76,49 @@ defined('KRYSTAL') or die;
             </div>
 
             <div class="tab-pane" id="map-design">
-                <div class="form-group row mb-3">
+                <div class="row mb-3">
                     <label class="col-lg-2 col-form-label"><?= $this->translate('Height (px)'); ?></label>
                     <div class="col-lg-10">
                         <?= Element::number('map[height]', $map->getHeight(), ['class' => 'form-control', 'placeholder' => $this->translate('Define map height in pixels')]); ?>
                     </div>
                 </div>
 
-                <div class="form-group row mb-3">
+                <div class="row mb-3">
                     <label class="col-lg-2 col-form-label"><?= $this->translate('Zoom'); ?></label>
                     <div class="col-lg-10">
                         <?= Element::text('map[zoom]', $map->getZoom(), ['class' => 'form-control']); ?>
                     </div>
                 </div>
 
-                <div class="form-group row mb-3">
+                <div class="row mb-3">
                     <label class="col-lg-2 col-form-label"><?= $this->translate('Map type'); ?></label>
                     <div class="col-lg-10">
-                        <?= Element::select('map[type]', $this->translateArray($mapTypes), $map->getType(), ['class' => 'form-control']); ?>
+                        <?= Element::select('map[type]', $this->translateArray($mapTypes), $map->getType(), ['class' => 'form-select']); ?>
                     </div>
                 </div>
 
-                <div class="form-group row mb-3">
+                <div class="row mb-3">
                     <label class="col-lg-2 col-form-label"><?= $this->translate('Gesture handling'); ?></label>
                     <div class="col-lg-10">
-                        <?= Element::select('map[gesture]', $this->translateArray($mapGestures), $map->getGesture(), ['class' => 'form-control']); ?>
+                        <?= Element::select('map[gesture]', $this->translateArray($mapGestures), $map->getGesture(), ['class' => 'form-select']); ?>
                     </div>
                 </div>
 
                 <?php if ($markers): ?>
-                <div class="form-group">
-                    <label class="col-lg-12"><?php $this->show('Shared icon for all markers'); ?></label>
+                <div class="mb-3">
+                    <label class="col-lg-12"><?= $this->translate('Shared icon for all markers'); ?></label>
                     <div class="col-lg-10">
 
                         <?php if ($map->getIcon()): ?>
                         <p><img class="img-fluid" src="<?= $map->getIcon(); ?>"></p>
-                        <p><?php $this->show('Remove this icon'); ?> <?= Element::checkbox('purge', false, [], false); ?></p>
+                        <p><?= $this->translate('Remove this icon'); ?> <?= Element::checkbox('purge', false, [], false); ?></p>
                         <?php endif; ?>
 
                         <?= Element::fileData('map[icon]', $map->getIcon(), 'image/png', ['class' => 'form-control']); ?>
                     </div>
                 </div>
 
-                <div class="form-group row mb-3">
+                <div class="row mb-3">
                     <label class="col-lg-2 col-form-label"><?= $this->translate('Routed'); ?></label>
                     <div class="col-lg-10">
                         <div class="form-check">
@@ -129,7 +127,7 @@ defined('KRYSTAL') or die;
                     </div>
                 </div>
 
-                <div class="form-group row mb-3">
+                <div class="row mb-3">
                     <label class="col-lg-2 col-form-label"><?= $this->translate('Clustering for all markers'); ?></label>
                     <div class="col-lg-10">
                         <div class="form-check">
@@ -139,7 +137,7 @@ defined('KRYSTAL') or die;
                 </div>
                 <?php endif; ?>
 
-                <div class="form-group row mb-3">
+                <div class="row mb-3">
                     <label class="col-lg-2 col-form-label"><?= $this->translate('Static'); ?></label>
                     <div class="col-lg-10">
                         <div class="form-check">
@@ -148,7 +146,7 @@ defined('KRYSTAL') or die;
                     </div>
                 </div>
 
-                <div class="form-group row mb-3">
+                <div class="row mb-3">
                     <label class="col-lg-2 col-form-label"><?= $this->translate('Custom style'); ?></label>
                     <div class="col-lg-10">
                         <?= Element::textarea('map[style]', $map->getStyle(), ['rows' => 8, 'class' => 'form-control', 'placeholder' => $this->translate('Insert custom style JavaScript array')]); ?>
@@ -161,11 +159,11 @@ defined('KRYSTAL') or die;
                 <!-- Header -->
                 <div class="row pt-2">
                     <div class="col-6">
-                        <h3 class="ml-0"><i class="fas fa-map-marker-alt"></i> <?php $this->show('Markers'); ?> <small class="text-muted">(<?= count($markers); ?>)</small></h3>
+                        <h3 class="ms-0"><i class="fas fa-map-marker-alt"></i> <?= $this->translate('Markers'); ?> <small class="text-muted">(<?= count($markers); ?>)</small></h3>
                     </div>
                     
-                    <div class="col-6 text-lg-right">
-                        <a class="btn btn-primary btn-sms" href="<?= $this->url('Map:Admin:MapMarker@addAction', $map->getId()); ?>"><i class="fas fa-map-marker-alt"></i> <?php $this->show('Add new marker'); ?></a>
+                    <div class="col-6 text-lg-end">
+                        <a class="btn btn-primary btn-sm" href="<?= $this->url('Map:Admin:MapMarker@addAction', $map->getId()); ?>"><i class="fas fa-map-marker-alt"></i> <?= $this->translate('Add new marker'); ?></a>
                     </div>
                 </div>
 
@@ -206,7 +204,7 @@ defined('KRYSTAL') or die;
                     ],
 
                     'actions' => [
-                        'inherit' => function($row){
+                        function($row){
                             return Icon::button(
                                 'fas fa-object-ungroup',
                                 $this->url('Map:Admin:MapMarker@inheritAction', $row['id']),
@@ -214,14 +212,14 @@ defined('KRYSTAL') or die;
                             );
                         },
 
-                        'edit' => function($row){
+                        function($row){
                             return Icon::edit(
                                 $this->url('Map:Admin:MapMarker@editAction', $row['id']),
                                 $this->translate('Edit this marker')
                             );
                         },
 
-                        'remove' => function($row){
+                        function($row){
                             return Icon::remove(
                                 $this->url('Map:Admin:MapMarker@deleteAction', $row['id']), 
                                 $this->translate('Remove this marker')
