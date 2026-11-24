@@ -11,7 +11,6 @@ namespace Map\Controller\Admin;
 
 use Krystal\Stdlib\VirtualEntity;
 use Cms\Controller\Admin\AbstractController;
-use Map\Service\MapService;
 
 final class MapMarker extends AbstractController
 {
@@ -47,12 +46,14 @@ final class MapMarker extends AbstractController
         $map = $this->getModuleService('mapService')->fetchById($mapId);
 
         if ($map !== false) {
+            $driver = $this->getModuleService('mapService')->getDriver($map->getDriver());
+
             // Load view plugins
             $this->view->getPluginBag()->load($this->getWysiwygPluginName())
-                                       ->appendScripts([
-                                            MapService::createServiceUrl($map->getApiKey(), $this->appConfig->getLanguage(), 'places'),
-                                            '@Map/google.handler.js'
-                                       ]);
+                                       ->appendScripts(array_merge(
+                                            [$driver->getServiceUrl($map->getApiKey(), $this->appConfig->getLanguage(), 'places')],
+                                            $driver->getAssets()
+                                       ));
 
             // Append breadcrumbs
             $this->view->getBreadcrumbBag()->addOne('Maps', $this->createUrl('Map:Admin:Map@indexAction'))

@@ -14,6 +14,7 @@ use Krystal\Stdlib\VirtualEntity;
 use Krystal\Stdlib\ArrayUtils;
 use Cms\Service\AbstractManager;
 use Map\Storage\MapMarkerMapperInterface;
+use Map\Driver\DriverRegistry;
 
 final class MapMarkerService extends AbstractManager
 {
@@ -93,6 +94,9 @@ final class MapMarkerService extends AbstractManager
             $map->setLanguage($code);
         }
 
+        $driverId = $map->getDriver();
+        $driver = DriverRegistry::get($driverId);
+
         // Required parameters for rendering
         return [
             'static' => $map->getStatic(),
@@ -108,6 +112,11 @@ final class MapMarkerService extends AbstractManager
             'height' => $map->getHeight(),
             'style' => $map->getStyle(),
             'language' => $map->getLanguage(),
+            'driver' => $driverId,
+            'serviceUrl' => $driver->getServiceUrl($map->getApiKey(), $map->getLanguage()),
+            'assets' => array_merge($driver->getAssets(), $driver->getExtraAssets([
+                'clustering' => $map->getClustering()
+            ])),
             'markers' => $this->createMarkers($map)
         ];
     }

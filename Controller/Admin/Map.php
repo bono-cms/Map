@@ -12,8 +12,7 @@ namespace Map\Controller\Admin;
 use Krystal\Stdlib\VirtualEntity;
 use Cms\Controller\Admin\AbstractController;
 use Map\Collection\LanguageCollection;
-use Map\Collection\MapTypeCollection;
-use Map\Collection\GestureCollection;
+use Map\Driver\DriverRegistry;
 
 final class Map extends AbstractController
 {
@@ -59,15 +58,14 @@ final class Map extends AbstractController
                                        ->addOne($title);
 
         $langCol = new LanguageCollection();
-        $typeCol = new MapTypeCollection();
-        $gstCol = new GestureCollection();
+        $driver = DriverRegistry::get($map->getDriver());
 
         return $this->view->render('map/form', [
             'map' => $map,
             'markers' => $map->getId() ? $this->getModuleService('mapMarkerService')->fetchAll($map->getId()) : false,
             'mapLanguages' => $langCol->getAll(),
-            'mapTypes' => $typeCol->getAll(),
-            'mapGestures' => $gstCol->getAll()
+            'mapTypes' => $driver->getMapTypes(),
+            'mapGestures' => $driver->getGestures()
         ]);
     }
 
@@ -143,6 +141,9 @@ final class Map extends AbstractController
         $validator = $this->createValidation();
 
         $validator->field('map.name')
+                  ->required();
+
+        $validator->field('map.driver')
                   ->required();
 
         $validator->field('map.height')

@@ -3,6 +3,7 @@
 use Krystal\Widget\GridView\GridViewWidget;
 use Cms\View\Icon;
 use Krystal\Form\Element;
+use Map\Driver\DriverRegistry;
 
 ?>
 
@@ -29,6 +30,13 @@ use Krystal\Form\Element;
         <div class="tab-content pt-3">
             <div class="tab-pane show active" id="map">
                 <?= Element::hidden('map[id]', $map->getId()); ?>
+
+                <div class="row mb-3">
+                    <label class="col-lg-2 col-form-label"><?= $this->translate('Driver'); ?></label>
+                    <div class="col-lg-10">
+                        <?= Element::select('map[driver]', DriverRegistry::getAll(), $map->getDriver(), ['class' => 'form-select']); ?>
+                    </div>
+                </div>
 
                 <div class="row mb-3">
                     <label class="col-lg-2 col-form-label"><?= $this->translate('Map name'); ?></label>

@@ -29,7 +29,7 @@ final class MapMapper extends AbstractMapper implements MapMapperInterface
      */
     public function fetchList()
     {
-        $db = $this->db->select(array('id', 'name'))
+        $db = $this->db->select(['id', 'name'])
                        ->from(self::getTableName())
                        ->orderBy('id')
                        ->desc();
@@ -45,8 +45,9 @@ final class MapMapper extends AbstractMapper implements MapMapperInterface
     public function fetchAll()
     {
         // To be selected and grouped
-        $columns = array(
+        $columns = [
             self::column('id'),
+            self::column('driver'),
             self::column('lat'),
             self::column('lng'),
             self::column('zoom'),
@@ -61,15 +62,15 @@ final class MapMapper extends AbstractMapper implements MapMapperInterface
             self::column('gesture'),
             self::column('routed'),
             self::column('static')
-        );
+        ];
 
         $db = $this->db->select($columns)
                        ->count(MapMarkerMapper::column('id'), 'marker_count')
                        ->from(self::getTableName())
                        // Marker relation
-                       ->leftJoin(MapMarkerMapper::getTableName(), array(
+                       ->leftJoin(MapMarkerMapper::getTableName(), [
                             MapMarkerMapper::column('map_id') => self::getRawColumn('id')
-                       ))
+                       ])
                        ->groupBy($columns)
                        ->orderBy(self::column('id'))
                        ->desc();

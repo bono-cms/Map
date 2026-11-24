@@ -10,7 +10,6 @@
 namespace Map\Service;
 
 use RuntimeException;
-use Map\Storage\MapMapperInterface;
 use Cms\Service\AbstractManager;
 use Krystal\Application\AppConfigInterface;
 use Krystal\Http\FileTransfer\FileUploader;
@@ -18,6 +17,8 @@ use Krystal\Stdlib\VirtualEntity;
 use Krystal\Stdlib\ArrayUtils;
 use Krystal\Filesystem\FileManager;
 use Map\Module;
+use Map\Driver\DriverRegistry;
+use Map\Storage\MapMapperInterface;
 
 final class MapService extends AbstractManager
 {
@@ -58,6 +59,7 @@ final class MapService extends AbstractManager
     {
         $entity = new VirtualEntity(false);
         $entity->setId($row['id'])
+               ->setDriver($row['driver'])
                ->setLat($row['lat'])
                ->setLng($row['lng'])
                ->setZoom($row['zoom'])
@@ -81,27 +83,14 @@ final class MapService extends AbstractManager
     }
 
     /**
-     * Creates service Google API from API key
-     * 
-     * @param string $key API key provided by Google
-     * @param string $language Optional language
-     * @param string $libraries Optional libraries
-     * @return string
+     * Returns a driver instance by its identifier
+     *
+     * @param string $id Driver identifier
+     * @return \Map\Driver\DriverInterface
      */
-    public static function createServiceUrl($key, $language = null, $libraries = null)
+    public function getDriver($id)
     {
-        $base = 'https://maps.googleapis.com/maps/api/js';
-
-        // Consider empty string as NULL
-        if (empty($language)) {
-            $language = null;
-        }
-
-        return $base . '?' . http_build_query([
-            'key' => $key,
-            'language' => $language,
-            'libraries' => $libraries
-        ]);
+        return DriverRegistry::get($id);
     }
 
     /**
