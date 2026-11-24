@@ -158,9 +158,6 @@ final class Map extends AbstractController
                   ->required()
                   ->addRule('longitude');
 
-        $validator->field('map.api_key')
-                  ->required();
-
         $validator->field('map.zoom')
                   ->required();
 
