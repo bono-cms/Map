@@ -19,7 +19,8 @@ final class DriverRegistry
      * @var array
      */
     private static $drivers = [
-        'google' => GoogleDriver::class
+        'google' => GoogleDriver::class,
+        'osm' => OsmDriver::class
     ];
 
     /**
