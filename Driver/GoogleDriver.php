@@ -47,7 +47,7 @@ final class GoogleDriver implements DriverInterface
     /**
      * {@inheritDoc}
      */
-    public function getAssets()
+    public function getScripts()
     {
         return [
             '@Map/google.handler.js',
@@ -58,16 +58,32 @@ final class GoogleDriver implements DriverInterface
     /**
      * {@inheritDoc}
      */
-    public function getExtraAssets(array $config)
+    public function getStyles()
     {
-        $assets = [];
+        return [];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getExtraScripts(array $config)
+    {
+        $scripts = [];
 
         // Clustering requires the marker clusterer library
         if (!empty($config['clustering'])) {
-            $assets[] = 'https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js';
+            $scripts[] = 'https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js';
         }
 
-        return $assets;
+        return $scripts;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getExtraStyles(array $config)
+    {
+        return [];
     }
 
     /**

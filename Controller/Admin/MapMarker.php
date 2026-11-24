@@ -49,11 +49,10 @@ final class MapMarker extends AbstractController
             $driver = $this->getModuleService('mapService')->getDriver($map->getDriver());
 
             // Load view plugins
-            $this->view->getPluginBag()->load($this->getWysiwygPluginName())
-                                       ->appendScripts(array_merge(
-                                            [$driver->getServiceUrl($map->getApiKey(), $this->appConfig->getLanguage(), 'places')],
-                                            $driver->getAssets()
-                                       ));
+            $this->view->getPluginBag()->load($this->getWysiwygPluginName());
+
+            $this->view->getPluginBag()->appendStylesheets($driver->getStyles())
+                                       ->appendScripts(array_merge([$driver->getServiceUrl($map->getApiKey(), $this->appConfig->getLanguage(), 'places')],$driver->getScripts()));
 
             // Append breadcrumbs
             $this->view->getBreadcrumbBag()->addOne('Maps', $this->createUrl('Map:Admin:Map@indexAction'))

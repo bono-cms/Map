@@ -36,20 +36,34 @@ interface DriverInterface
     public function getServiceUrl($apiKey, $language = null, $libraries = null);
 
     /**
-     * Returns asset paths to load for this driver
+     * Returns script URLs to load for this driver (frontend and admin)
      *
      * @return array
      */
-    public function getAssets();
+    public function getScripts();
 
     /**
-     * Returns extra asset URLs required by the given configuration
-     * (e.g. clustering library). Full URLs or '@Module/...' paths.
+     * Returns stylesheet URLs to load for this driver
+     *
+     * @return array
+     */
+    public function getStyles();
+
+    /**
+     * Returns extra script URLs required by the given configuration
      *
      * @param array $config Normalized map configuration
      * @return array
      */
-    public function getExtraAssets(array $config);
+    public function getExtraScripts(array $config);
+
+    /**
+     * Returns extra stylesheet URLs required by the given configuration
+     *
+     * @param array $config Normalized map configuration
+     * @return array
+     */
+    public function getExtraStyles(array $config);
 
     /**
      * Returns available map types for this driver

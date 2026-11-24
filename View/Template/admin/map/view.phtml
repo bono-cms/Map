@@ -2,12 +2,21 @@
 
 use Krystal\Security\Filter;
 
+// Output stylesheets directly into the body.
+// Because renderRaw() renders after the <head> is compiled, appending
+// to the PluginBag here would have no effect on the <head>.
+// Inline <link> tags in <body> are valid HTML5 and load reliably.
+foreach ($config['styles'] as $style) {
+    echo '<link rel="stylesheet" href="' . $style . '">' . PHP_EOL;
+}
+
+// Scripts, however, are safe to append because they execute synchronously
+// and the PluginBag outputs them at the end of the body.
 $this->getPluginBag()->appendScripts(array_merge(
     [$config['serviceUrl']],
-    $config['assets']
+    $config['scripts']
 ));
 
 ?>
-
 <div id="<?= $config['id']; ?>" style="height: <?= $config['height']; ?>px;"></div>
 <input type="hidden" class="map-configuration-input" value="<?= Filter::specialChars(json_encode($config)); ?>" />

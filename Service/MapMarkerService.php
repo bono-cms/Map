@@ -114,7 +114,10 @@ final class MapMarkerService extends AbstractManager
             'language' => $map->getLanguage(),
             'driver' => $driverId,
             'serviceUrl' => $driver->getServiceUrl($map->getApiKey(), $map->getLanguage()),
-            'assets' => array_merge($driver->getAssets(), $driver->getExtraAssets([
+            'scripts' => array_merge($driver->getScripts(), $driver->getExtraScripts([
+                'clustering' => $map->getClustering()
+            ])),
+            'styles' => array_merge($driver->getStyles(), $driver->getExtraStyles([
                 'clustering' => $map->getClustering()
             ])),
             'markers' => $this->createMarkers($map)
@@ -171,7 +174,10 @@ final class MapMarkerService extends AbstractManager
             'language' => $language,
             'driver' => $driverId,
             'serviceUrl' => $driver->getServiceUrl($apiKey, $language),
-            'assets' => array_merge($driver->getAssets(), $driver->getExtraAssets([
+            'scripts' => array_merge($driver->getScripts(), $driver->getExtraScripts([
+                'clustering' => $clustering
+            ])),
+            'styles' => array_merge($driver->getStyles(), $driver->getExtraStyles([
                 'clustering' => $clustering
             ])),
             'markers' => $markers
