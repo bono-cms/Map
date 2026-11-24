@@ -1,28 +1,29 @@
 Map module
 =====
 
-This module makes it simple to add maps to your website. It ships with Google Maps support and is built around a driver layer, so additional providers (Mapbox, Leaflet/OpenStreetMap, etc.) can be added later without touching the rest of the module.
+This module makes it simple to add maps to your website. It ships with out-of-the-box support for **Google Maps** and **OpenStreetMap (Leaflet)** and is built around a driver layer, so additional providers (Mapbox, etc.) can be added later without touching the rest of the module.
 
-Just provide a latitude, longitude, and your API key to create a new map, then render it anywhere on your site with a single line of code.
+Provide a latitude and longitude (plus an API key when using Google Maps) to create a new map, then render it anywhere on your site with a single line of code.
 
-If you plan to use Google Maps, please [obtain your API key](https://developers.google.com/maps/documentation/javascript/get-api-key) from Google before you get started.
+If you plan to use Google Maps, [obtain your API key](https://developers.google.com/maps/documentation/javascript/get-api-key) from Google before you get started. OpenStreetMap works out of the box with no API key required.
 
 ## Features
 
+-   **Multiple Map Providers**: Switch between Google Maps (`google`) and OpenStreetMap (`osm`) per map.
 -   **Easy Configuration**: Set height, latitude, longitude, zoom level, language, map type, and gesture controls with minimal setup.
--   **Custom Styling**: Fully support custom styles to match your brand or theme.
+-   **Custom Styling**: Support custom styles (Google Maps JSON style arrays) to match your brand or theme.
 -   **Simple Marker Setup**: Add markers using just latitude and longitude.
--   **Marker Clustering**: Automatically group a large number of markers into clusters that expand on click.
+-   **Marker Clustering**: Automatically group a large number of markers into clusters that expand on click (supported in both Google Maps and OpenStreetMap).
 -   **Marker Animations**: Add smooth animations to bring your markers to life.
--   **Marker Labels**: Display custom labels for each marker.
+-   **Marker Labels**: Display custom labels for each marker (native labels on Google Maps; hover tooltips on OpenStreetMap).
 -   **Coordinate Inheritance**: Markers can inherit coordinates from a parent map for cleaner code and consistency.
 -   **Reusable Map Icons**: Define a map icon once and reuse it across all markers.
--   **Info Windows**: Optionally attach information windows to markers for interactive content.
+-   **Info Windows**: Optionally attach information windows/popups to markers for interactive content.
 -   **Unlimited Maps**: Create and render as many maps as you need—no limits.
 -   **Auto Language Detection**: Automatically detect and apply the user's language unless specified manually.
--   **Routed Maps**: Enable route visualization by simply checking the "Routed" option and adding markers.
--   **Static Maps**: Disable map scrolling to create fixed/static maps when needed.
--   **Address to Coordinates**: Automatically find coordinates by entering an address when creating markers.
+-   **Routed Maps**: Enable route visualization by checking the "Routed" option and adding at least two markers (turn-by-turn directions on Google Maps; direct polyline route on OpenStreetMap).
+-   **Static Maps**: Disable map panning and zoom interactions to create fixed/static maps when needed.
+-   **Address to Coordinates**: Automatically find coordinates by entering an address when creating markers (Google Places Autocomplete).
 -   **Driver-based Architecture**: Provider-specific logic is isolated behind a driver interface, so adding new map providers is a matter of dropping in a new driver class.
 
 ## Usage
@@ -48,7 +49,9 @@ Once you've created a map, you can render it anywhere in your templates by simpl
 
 Pass the configuration directly — no database record required:
 
+    // Google Maps example
     <?= $map->render([
+        'driver' => 'google',
         'lat' => 40.7128,
         'lng' => -74.0060,
         'zoom' => 12,
@@ -65,7 +68,26 @@ Pass the configuration directly — no database record required:
         ]
     ]); ?>
 
-All keys are optional except `lat`, `lng` and `api_key`. Defaults are applied for the rest (`zoom = 5`, `height = 500`, `gesture = 'auto'`, `type = 'roadmap'`, `language = current site language`).
+    // OpenStreetMap example (no API key needed)
+    <?= $map->render([
+        'driver' => 'osm',
+        'type' => 'osm',
+        'lat' => 40.7128,
+        'lng' => -74.0060,
+        'zoom' => 12,
+        'height' => 400,
+        'markers' => [
+            [
+                'lat' => 40.7128,
+                'lng' => -74.0060,
+                'label' => 'A',
+                'description' => '<p>Hello</p>',
+                'popup' => true
+            ]
+        ]
+    ]); ?>
+
+All keys are optional except `lat`, `lng`, and `api_key` (for Google Maps). Defaults are applied for the rest (`driver = 'google'`, `zoom = 5`, `height = 500`, `gesture = 'auto'`, `type = 'roadmap'`, `language = current site language`).
 
 ### Supported configuration keys
 
@@ -76,14 +98,14 @@ All keys are optional except `lat`, `lng` and `api_key`. Defaults are applied fo
 | `zoom` | int | `5` | Initial zoom level |
 | `height` | int | `500` | Map height in pixels |
 | `api_key` | string | `''` | Credential required by the selected driver (see note below) |
-| `driver` | string | `'google'` | Driver identifier |
-| `type` | string | `'roadmap'` | Map type (driver-specific) |
-| `gesture` | string | `'auto'` | Gesture handling mode |
+| `driver` | string | `'google'` | Driver identifier (`'google'` or `'osm'`) |
+| `type` | string | `'roadmap'` | Map type (driver-specific: e.g. `'roadmap'`, `'satellite'`, `'hybrid'`, `'terrain'` for Google; `'osm'` for OpenStreetMap) |
+| `gesture` | string | `'auto'` | Gesture handling mode (`'auto'`, `'greedy'`, `'cooperative'`, `'none'` for Google; `'auto'`, `'none'` for OpenStreetMap) |
 | `language` | string\|null | current site language | Language code |
-| `static` | bool | `false` | Disable panning and keyboard shortcuts |
+| `static` | bool | `false` | Disable panning, zooming, and keyboard shortcuts |
 | `routed` | bool | `false` | Draw a route through the markers (needs at least 2 markers) |
 | `clustering` | bool | `false` | Cluster markers when they are close to each other |
-| `style` | string | `''` | Custom style (JSON-encoded JS array) |
+| `style` | string | `''` | Custom style (JSON-encoded JS array, used by Google Maps) |
 | `id` | string | auto-generated | DOM id of the container |
 | `markers` | array | `[]` | List of markers (see below) |
 
@@ -93,21 +115,22 @@ Marker keys:
 |---|---|---|---|
 | `lat` | float | `0` | Marker latitude |
 | `lng` | float | `0` | Marker longitude |
-| `label` | string | `''` | Marker label |
+| `label` | string | `''` | Marker label (text label on Google Maps; hover tooltip on OpenStreetMap) |
 | `icon` | string | `''` | Custom icon URL |
-| `description` | string | `''` | Info window HTML |
-| `animation` | bool | `false` | Enable marker animation |
+| `description` | string | `''` | Info window / popup HTML |
+| `animation` | bool | `false` | Enable marker animation (Google Maps) |
 | `draggable` | bool | `false` | Allow dragging the marker |
-| `popup` | bool | `false` | Open the info window automatically |
+| `popup` | bool | `false` | Open the info window/popup automatically |
 
 ## Note on `api_key`
 
-The `api_key` field carries the credential required by the selected driver. For Google it's an API key. Other providers use the same field for whatever credential they call their own — Mapbox calls it an access token, Leaflet/OpenStreetMap needs none. The key name `api_key` is used uniformly across the module. When a driver needs more than a single credential (e.g. Mapbox also needs a style URL), the module will grow a driver-specific config bag rather than overloading `api_key`.
+The `api_key` field carries the credential required by the selected driver. For Google Maps it's an API key. OpenStreetMap (`osm`) requires no API key (the field can be left empty in ad-hoc `render()` calls). Other providers use the same field for whatever credential they require — e.g., Mapbox calls it an access token. When a driver needs more than a single credential, the module will grow a driver-specific config bag rather than overloading `api_key`.
 
 ## Drivers
 
 The module ships with the following drivers:
 
--   `google` — Google Maps
+-   `google` — **Google Maps** (`Map\Driver\GoogleDriver`): Uses the Google Maps JavaScript API, Google Places address autocomplete in the admin panel, `@google/markerclustererplus` for clustering, and the Directions API for routed maps.
+-   `osm` — **OpenStreetMap** (`Map\Driver\OsmDriver`): Uses Leaflet `1.9.4` with standard OpenStreetMap tiles, `Leaflet.markercluster` for clustering, and polyline rendering for routed maps.
 
 More drivers can be added by implementing `Map\Driver\DriverInterface` and registering the class in `Map\Driver\DriverRegistry`. No other file needs to change — the admin form, the service URL, the asset list, the map types, and the gesture list are all sourced from the active driver.
