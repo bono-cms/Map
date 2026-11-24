@@ -69,12 +69,12 @@ final class SiteService
     }
 
     /**
-     * Renders a map
+     * Renders a map by its id
      * 
      * @param int $id Map id to be rendered
-     * @return string
+     * @return string|null
      */
-    public function renderMap($id)
+    public function renderById($id)
     {
         $map = $this->mapService->fetchById($id);
 
@@ -87,5 +87,18 @@ final class SiteService
         } else {
             return null;
         }
+    }
+
+    /**
+     * Renders an ad-hoc map from a configuration array
+     *
+     * @param array $config Map configuration
+     * @return string
+     */
+    public function render(array $config)
+    {
+        return $this->view->renderRaw('Map', 'admin', 'map/view', [
+            'config' => $this->mapMarkerService->createConfigurationFromArray($config, $this->code)
+        ]);
     }
 }

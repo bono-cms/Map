@@ -122,6 +122,63 @@ final class MapMarkerService extends AbstractManager
     }
 
     /**
+     * Creates configuration from an ad-hoc input array
+     *
+     * @param array $input Raw configuration array
+     * @param string $code Current language code
+     * @return array
+     */
+    public function createConfigurationFromArray(array $input, $code)
+    {
+        $driverId = isset($input['driver']) ? $input['driver'] : 'google';
+        $driver = DriverRegistry::get($driverId);
+
+        // Normalize markers
+        $markers = [];
+
+        if (isset($input['markers']) && is_array($input['markers'])) {
+            foreach ($input['markers'] as $marker) {
+                $markers[] = [
+                    'lat' => isset($marker['lat']) ? (string) $marker['lat'] : '0',
+                    'lng' => isset($marker['lng']) ? (string) $marker['lng'] : '0',
+                    'label' => isset($marker['label']) ? (string) $marker['label'] : '',
+                    'icon' => isset($marker['icon']) ? (string) $marker['icon'] : '',
+                    'description' => isset($marker['description']) ? (string) $marker['description'] : '',
+                    'animation' => !empty($marker['animation']) ? '1' : '0',
+                    'draggable' => !empty($marker['draggable']) ? '1' : '0',
+                    'popup' => !empty($marker['popup']) ? '1' : '0'
+                ];
+            }
+        }
+
+        $language = isset($input['language']) ? $input['language'] : $code;
+        $apiKey = isset($input['api_key']) ? $input['api_key'] : '';
+        $clustering = !empty($input['clustering']) ? '1' : '0';
+
+        return [
+            'static' => !empty($input['static']) ? '1' : '0',
+            'routed' => !empty($input['routed']) ? '1' : '0',
+            'gesture' => isset($input['gesture']) ? $input['gesture'] : 'auto',
+            'clustering' => $clustering,
+            'type' => isset($input['type']) ? $input['type'] : 'roadmap',
+            'key' => $apiKey,
+            'id' => isset($input['id']) ? $input['id'] : 'map-' . uniqid(),
+            'lat' => isset($input['lat']) ? (string) $input['lat'] : '0',
+            'lng' => isset($input['lng']) ? (string) $input['lng'] : '0',
+            'zoom' => isset($input['zoom']) ? (int) $input['zoom'] : 5,
+            'height' => isset($input['height']) ? (int) $input['height'] : 500,
+            'style' => isset($input['style']) ? $input['style'] : '',
+            'language' => $language,
+            'driver' => $driverId,
+            'serviceUrl' => $driver->getServiceUrl($apiKey, $language),
+            'assets' => array_merge($driver->getAssets(), $driver->getExtraAssets([
+                'clustering' => $clustering
+            ])),
+            'markers' => $markers
+        ];
+    }
+
+    /**
      * Returns last marker id
      * 
      * @return int
