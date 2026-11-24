@@ -23,8 +23,20 @@ var map = {
     }
 };
 
-google.maps.event.addDomListener(window, "load", function(){
-    map.google.getCoordinates(document.getElementById('autocomplete'), function(lat, lng){
+window.addEventListener("load", function(){
+    var input = document.getElementById('autocomplete');
+
+    // Bail out when the autocomplete input is not present on the page
+    if (!input) {
+        return;
+    }
+
+    // Bail out when the Places library was not loaded
+    if (typeof google === 'undefined' || !google.maps || !google.maps.places) {
+        return;
+    }
+
+    map.google.getCoordinates(input, function(lat, lng){
         $("[name='marker[lat]']").val(lat);
         $("[name='marker[lng]']").val(lng);
     });

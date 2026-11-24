@@ -11,13 +11,13 @@
             var config = JSON.parse(element.value);
 
             var map = new google.maps.Map(document.getElementById(config.id), {
-                zoom: parseInt(config.zoom), 
+                zoom: parseInt(config.zoom),
                 mapTypeId: config.type ? config.type : 'roadmap',
                 gestureHandling: config.gesture,
                 center: {
                     lat: parseFloat(config.lat),
                     lng: parseFloat(config.lng)
-                }, 
+                },
                 styles: config.style ? JSON.parse(config.style) : []
             });
 
@@ -45,12 +45,12 @@
                         var draggable = current.draggable == '1';
 
                         var marker = new google.maps.Marker({
-                            label: current.label !== '' ? current.label : null, 
+                            label: current.label !== '' ? current.label : null,
                             draggable: draggable,
                             position: {
                                 lat: parseFloat(current.lat),
                                 lng: parseFloat(current.lng)
-                            }, 
+                            },
                             map: map,
                             icon : current.icon !== '' ? current.icon : null,
                             animation : hasAnimation ? google.maps.Animation.DROP : null
@@ -125,14 +125,14 @@
                     })(i, clustering);
                 }
 
-                if (config.clustering && typeof(MarkerClusterer) !== 'undefined') {
+                if (config.clustering == '1' && typeof(MarkerClusterer) !== 'undefined') {
                     var markerCluster = new MarkerClusterer(map, clustering, {
                         imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
                     });
                 }
 
-                // Is this routed map?
-                if (config.routed) {
+                // Is this routed map? A route needs both origin and destination
+                if (config.routed == '1' && request.origin && request.destination) {
                     var directionsDisplay = new google.maps.DirectionsRenderer({
                         suppressMarkers: true
                     });
